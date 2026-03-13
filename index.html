@@ -54,8 +54,8 @@ const first=new Date(vy,vm,1);
 const cells=Array(first.getDay()).fill(null).concat(Array(new Date(vy,vm+1,0).getDate()).fill(0).map((_,i)=>new Date(vy,vm,i+1)));
 const isFut=d=>{const t=new Date();t.setHours(0,0,0,0);return d>t;};
 const heatClr=d=>{const dd=allData[toKey(d)];if(!dd||!cntChk(dd))return T.hn;const s=topSev(dd);return s===“Severe”?T.hs:s===“Moderate”?T.hmo:s===“Mild”?T.hm:T.hn;};
-const navBtn=(lbl,fn)=>h(‘button’,{onClick:fn,style:{background:“none”,border:`1.5px solid ${T.bdrM}`,borderRadius:“50%”,width:30,height:30,cursor:“pointer”,color:T.txM,fontSize:“1rem”,display:“flex”,alignItems:“center”,justifyContent:“center”}},lbl);
-return h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:14,padding:“16px 14px”,marginBottom:18,boxShadow:`0 1px 8px ${T.sh}`}},
+const navBtn=(lbl,fn)=>h(‘button’,{onClick:fn,style:{background:“none”,border:“1.5px solid “+(T.bdrM),borderRadius:“50%”,width:30,height:30,cursor:“pointer”,color:T.txM,fontSize:“1rem”,display:“flex”,alignItems:“center”,justifyContent:“center”}},lbl);
+return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,padding:“16px 14px”,marginBottom:18,boxShadow:“0 1px 8px “+(T.sh)}},
 h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,marginBottom:12}},
 navBtn(”‹”,()=>vm===0?(setVm(11),setVy(y=>y-1)):setVm(m=>m-1)),
 h(‘div’,{style:{textAlign:“center”}},
@@ -72,7 +72,7 @@ cells.map((date,i)=>{
 if(!date)return h(‘div’,{key:“p”+i});
 const k=toKey(date),isSel=k===selKey,fut=isFut(date),isToday=k===toKey(new Date());
 const dd=allData[k],has=!!(dd?.checked&&Object.values(dd.checked).some(Boolean)),sev=topSev(dd);
-return h(‘button’,{key:k,onClick:()=>!fut&&onSelect(date),style:{position:“relative”,background:isSel?T.accB:heat&&has?heatClr(date):isToday?T.accL:“transparent”,color:isSel?”#fff”:fut?T.txF:T.tx,border:isToday&&!isSel?`1.5px solid ${T.accB}`:`1.5px solid ${heat&&has?T.bdr:"transparent"}`,borderRadius:7,padding:“4px 2px”,cursor:fut?“not-allowed”:“pointer”,fontSize:“0.8rem”,fontWeight:isToday?700:400,minHeight:32,transition:“all 0.15s”,outline:“none”}},
+return h(‘button’,{key:k,onClick:()=>!fut&&onSelect(date),style:{position:“relative”,background:isSel?T.accB:heat&&has?heatClr(date):isToday?T.accL:“transparent”,color:isSel?”#fff”:fut?T.txF:T.tx,border:isToday&&!isSel?“1.5px solid “+(T.accB):“1.5px solid “+(heat&&has?T.bdr:“transparent”),borderRadius:7,padding:“4px 2px”,cursor:fut?“not-allowed”:“pointer”,fontSize:“0.8rem”,fontWeight:isToday?700:400,minHeight:32,transition:“all 0.15s”,outline:“none”}},
 date.getDate(),
 !heat&&has&&h(‘span’,{style:{position:“absolute”,bottom:2,left:“50%”,transform:“translateX(-50%)”,width:4,height:4,borderRadius:“50%”,background:isSel?”#fff”:sev?SEV_HEX[sev]:”#4a5fa8”,display:“block”}})
 );
@@ -80,7 +80,7 @@ date.getDate(),
 ),
 h(‘div’,{style:{marginTop:10,display:“flex”,gap:10,flexWrap:“wrap”,justifyContent:“center”}},
 heat
-? [[“No data”,T.hn],[“Mild”,T.hm],[“Moderate”,T.hmo],[“Severe”,T.hs]].map(([l,c])=>h(‘div’,{key:l,style:{display:“flex”,alignItems:“center”,gap:3,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:11,height:11,borderRadius:2,background:c,border:`1px solid ${T.bdr}`,display:“inline-block”}}),l))
+? [[“No data”,T.hn],[“Mild”,T.hm],[“Moderate”,T.hmo],[“Severe”,T.hs]].map(([l,c])=>h(‘div’,{key:l,style:{display:“flex”,alignItems:“center”,gap:3,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:11,height:11,borderRadius:2,background:c,border:“1px solid “+(T.bdr),display:“inline-block”}}),l))
 : [[“Mild”,”#f59e0b”],[“Moderate”,”#ea580c”],[“Severe”,”#dc2626”],[“Logged”,”#4a5fa8”]].map(([l,c])=>h(‘div’,{key:l,style:{display:“flex”,alignItems:“center”,gap:3,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:6,height:6,borderRadius:“50%”,background:c,display:“inline-block”}}),l))
 )
 );
@@ -91,7 +91,7 @@ const [showAdd,setShowAdd]=useState(false);
 const [nm,setNm]=useState({name:””,dosage:””,frequency:””,notes:””});
 const [seId,setSeId]=useState(null);
 const [seText,setSeText]=useState(””);
-const iS={width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
+const iS={width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
 const addMed=()=>{if(!nm.name.trim())return;setMeds(p=>p.concat([Object.assign({id:Date.now()},nm)]));setNm({name:””,dosage:””,frequency:””,notes:””});setShowAdd(false);};
 const toggleTaken=id=>setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{taken:!d[id]?.taken});return Object.assign({},p,{[dk]:d});});
 const saveSE=id=>{setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{sideEffects:seText});return Object.assign({},p,{[dk]:d});});setSeId(null);setSeText(””);};
@@ -100,7 +100,7 @@ h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignI
 h(‘div’,{style:{fontFamily:PF,fontSize:“1rem”,fontWeight:600,color:T.tx}},“Medications”),
 h(‘button’,{onClick:()=>setShowAdd(v=>!v),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:8,padding:“6px 14px”,fontFamily:PF,fontSize:“0.8rem”,cursor:“pointer”}},”+ Add”)
 ),
-showAdd&&h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:14,marginBottom:14}},
+showAdd&&h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:14,marginBottom:14}},
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
 h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NAME *”),h(‘input’,{style:iS,placeholder:“e.g. Ibuprofen”,value:nm.name,onChange:e=>setNm(v=>(Object.assign({},v,{name:e.target.value})))})),
 h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DOSAGE”),h(‘input’,{style:iS,placeholder:“e.g. 400mg”,value:nm.dosage,onChange:e=>setNm(v=>(Object.assign({},v,{dosage:e.target.value})))}))
@@ -109,33 +109,33 @@ h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,
 h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘input’,{style:iS,placeholder:“Prescribing doctor”,value:nm.notes,onChange:e=>setNm(v=>(Object.assign({},v,{notes:e.target.value})))})),
 h(‘div’,{style:{display:“flex”,gap:8}},
 h(‘button’,{onClick:addMed,style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:7,padding:“7px 18px”,fontFamily:PF,fontSize:“0.82rem”,cursor:“pointer”}},“Save”),
-h(‘button’,{onClick:()=>setShowAdd(false),style:{background:“none”,border:`1px solid ${T.bdr}`,borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
+h(‘button’,{onClick:()=>setShowAdd(false),style:{background:“none”,border:“1px solid “+(T.bdr),borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
 )
 ),
 meds.length===0
-? h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:28,textAlign:“center”,color:T.txMu,fontFamily:SS,fontSize:“0.88rem”,fontStyle:“italic”}},“No medications added yet.”)
+? h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:28,textAlign:“center”,color:T.txMu,fontFamily:SS,fontSize:“0.88rem”,fontStyle:“italic”}},“No medications added yet.”)
 : meds.map(med=>{
 const log=medLogs[dk]?.[med.id]||{};
-return h(‘div’,{key:med.id,style:{background:T.sur,border:`1px solid ${log.taken?T.accB:T.bdr}`,borderRadius:12,overflow:“hidden”,marginBottom:10}},
+return h(‘div’,{key:med.id,style:{background:T.sur,border:“1px solid “+(log.taken?T.accB:T.bdr),borderRadius:12,overflow:“hidden”,marginBottom:10}},
 h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“11px 14px”,background:log.taken?T.accL:T.secH}},
 h(‘div’,null,
 h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},med.name),
 h(‘div’,{style:{fontSize:“0.75rem”,color:T.txMu,marginTop:1}},med.dosage+(med.dosage&&med.frequency?” · “:””)+med.frequency)
 ),
 h(‘div’,{style:{display:“flex”,gap:6}},
-h(‘button’,{onClick:()=>toggleTaken(med.id),style:{background:log.taken?”#22c55e”:“transparent”,color:log.taken?”#fff”:T.txMu,border:`1.5px solid ${log.taken?"#22c55e":T.bdrM}`,borderRadius:99,padding:“3px 12px”,fontSize:“0.72rem”,fontWeight:600,cursor:“pointer”,outline:“none”}},log.taken?“✓ Taken”:“Mark Taken”),
+h(‘button’,{onClick:()=>toggleTaken(med.id),style:{background:log.taken?”#22c55e”:“transparent”,color:log.taken?”#fff”:T.txMu,border:“1.5px solid “+(log.taken?”#22c55e”:T.bdrM),borderRadius:99,padding:“3px 12px”,fontSize:“0.72rem”,fontWeight:600,cursor:“pointer”,outline:“none”}},log.taken?“✓ Taken”:“Mark Taken”),
 h(‘button’,{onClick:()=>setMeds(p=>p.filter(m=>m.id!==med.id)),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”,fontSize:“0.9rem”}},“✕”)
 )
 ),
-med.notes&&h(‘div’,{style:{padding:“7px 14px”,fontSize:“0.75rem”,color:T.txMu,borderTop:`1px solid ${T.bdr}`}},“📝 “+med.notes),
-h(‘div’,{style:{padding:“7px 14px”,borderTop:`1px solid ${T.bdr}`}},
-h(‘button’,{onClick:()=>{setSeId(seId===med.id?null:med.id);setSeText(log.sideEffects||””);},style:{fontSize:“0.72rem”,color:log.sideEffects?T.acc:T.txMu,background:“none”,border:`1px solid ${T.bdr}`,borderRadius:6,padding:“2px 9px”,cursor:“pointer”,outline:“none”}},log.sideEffects?“⚠ Side effects logged”:”+ Log side effects”)
+med.notes&&h(‘div’,{style:{padding:“7px 14px”,fontSize:“0.75rem”,color:T.txMu,borderTop:“1px solid “+(T.bdr)}},“📝 “+med.notes),
+h(‘div’,{style:{padding:“7px 14px”,borderTop:“1px solid “+(T.bdr)}},
+h(‘button’,{onClick:()=>{setSeId(seId===med.id?null:med.id);setSeText(log.sideEffects||””);},style:{fontSize:“0.72rem”,color:log.sideEffects?T.acc:T.txMu,background:“none”,border:“1px solid “+(T.bdr),borderRadius:6,padding:“2px 9px”,cursor:“pointer”,outline:“none”}},log.sideEffects?“⚠ Side effects logged”:”+ Log side effects”)
 ),
-seId===med.id&&h(‘div’,{style:{padding:“9px 14px”,borderTop:`1px solid ${T.bdr}`}},
-h(‘textarea’,{style:{width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:7,padding:“7px 10px”,fontFamily:SS,fontSize:“0.83rem”,color:T.tx,resize:“vertical”,minHeight:55,outline:“none”,boxSizing:“border-box”},placeholder:“Describe side effects”,value:seText,onChange:e=>setSeText(e.target.value)}),
+seId===med.id&&h(‘div’,{style:{padding:“9px 14px”,borderTop:“1px solid “+(T.bdr)}},
+h(‘textarea’,{style:{width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:7,padding:“7px 10px”,fontFamily:SS,fontSize:“0.83rem”,color:T.tx,resize:“vertical”,minHeight:55,outline:“none”,boxSizing:“border-box”},placeholder:“Describe side effects”,value:seText,onChange:e=>setSeText(e.target.value)}),
 h(‘div’,{style:{display:“flex”,gap:7,marginTop:5}},
 h(‘button’,{onClick:()=>saveSE(med.id),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:6,padding:“5px 14px”,fontSize:“0.78rem”,cursor:“pointer”}},“Save”),
-h(‘button’,{onClick:()=>setSeId(null),style:{background:“none”,border:`1px solid ${T.bdr}`,borderRadius:6,padding:“5px 10px”,fontSize:“0.78rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
+h(‘button’,{onClick:()=>setSeId(null),style:{background:“none”,border:“1px solid “+(T.bdr),borderRadius:6,padding:“5px 10px”,fontSize:“0.78rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
 )
 )
 );
@@ -147,7 +147,7 @@ function ApptTab({appts,setAppts,T}){
 const [show,setShow]=useState(false);
 const [editId,setEditId]=useState(null);
 const [f,setF]=useState({date:””,time:””,provider:””,type:””,location:””,notes:””});
-const iS={width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
+const iS={width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
 const openForm=a=>{setF(a?Object.assign({},a):{date:””,time:””,provider:””,type:””,location:””,notes:””});setEditId(a?a.id:null);setShow(true);};
 const save=()=>{if(!f.date||!f.provider)return;editId?setAppts(p=>p.map(a=>a.id===editId?Object.assign({},f,{id:editId,completed:a.completed}):a)):setAppts(p=>p.concat([Object.assign({},f,{id:Date.now(),completed:false})]));setShow(false);};
 const toggle=id=>setAppts(p=>p.map(a=>a.id===id?Object.assign({},a,{completed:!a.completed}):a));
@@ -156,19 +156,19 @@ const upcoming=appts.filter(a=>!a.completed).sort((a,b)=>a.date.localeCompare(b.
 const past=appts.filter(a=>a.completed).sort((a,b)=>b.date.localeCompare(a.date));
 const Card=({a})=>{
 const d=a.date?new Date(a.date+“T12:00:00”):null;
-return h(‘div’,{style:{background:T.sur,border:`1px solid ${a.completed?T.bdrM:T.accB}`,borderRadius:12,marginBottom:8,overflow:“hidden”,opacity:a.completed?0.7:1}},
+return h(‘div’,{style:{background:T.sur,border:“1px solid “+(a.completed?T.bdrM:T.accB),borderRadius:12,marginBottom:8,overflow:“hidden”,opacity:a.completed?0.7:1}},
 h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“10px 14px”,background:a.completed?T.secH:T.accL}},
 h(‘div’,null,
 h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx,textDecoration:a.completed?“line-through”:“none”}},a.provider+(a.type?” — “+a.type:””)),
 h(‘div’,{style:{fontSize:“0.72rem”,color:T.txMu,marginTop:2}},(d?d.toLocaleDateString(“en-US”,{weekday:“short”,month:“short”,day:“numeric”,year:“numeric”}):””+(a.time?” at “+a.time:””)))
 ),
 h(‘div’,{style:{display:“flex”,gap:5}},
-h(‘button’,{onClick:()=>toggle(a.id),style:{fontSize:“0.7rem”,background:a.completed?“transparent”:”#22c55e”,color:a.completed?T.txMu:”#fff”,border:`1px solid ${a.completed?T.bdr:"#22c55e"}`,borderRadius:5,padding:“3px 8px”,cursor:“pointer”,outline:“none”}},a.completed?“↩ Undo”:“✓ Done”),
-h(‘button’,{onClick:()=>openForm(a),style:{fontSize:“0.7rem”,background:“none”,color:T.txMu,border:`1px solid ${T.bdr}`,borderRadius:5,padding:“3px 7px”,cursor:“pointer”,outline:“none”}},“Edit”),
+h(‘button’,{onClick:()=>toggle(a.id),style:{fontSize:“0.7rem”,background:a.completed?“transparent”:”#22c55e”,color:a.completed?T.txMu:”#fff”,border:“1px solid “+(a.completed?T.bdr:”#22c55e”),borderRadius:5,padding:“3px 8px”,cursor:“pointer”,outline:“none”}},a.completed?“↩ Undo”:“✓ Done”),
+h(‘button’,{onClick:()=>openForm(a),style:{fontSize:“0.7rem”,background:“none”,color:T.txMu,border:“1px solid “+(T.bdr),borderRadius:5,padding:“3px 7px”,cursor:“pointer”,outline:“none”}},“Edit”),
 h(‘button’,{onClick:()=>remove(a.id),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”,fontSize:“0.88rem”}},“✕”)
 )
 ),
-(a.location||a.notes)&&h(‘div’,{style:{padding:“7px 14px”,borderTop:`1px solid ${T.bdr}`}},
+(a.location||a.notes)&&h(‘div’,{style:{padding:“7px 14px”,borderTop:“1px solid “+(T.bdr)}},
 a.location&&h(‘div’,{style:{fontSize:“0.75rem”,color:T.txMu}},“📍 “+a.location),
 a.notes&&h(‘div’,{style:{fontSize:“0.75rem”,color:T.txMu,fontStyle:“italic”,marginTop:a.location?3:0}},“📝 “+a.notes)
 )
@@ -179,7 +179,7 @@ h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignI
 h(‘div’,{style:{fontFamily:PF,fontSize:“1rem”,fontWeight:600,color:T.tx}},“Doctor Appointments”),
 h(‘button’,{onClick:()=>openForm(null),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:8,padding:“6px 14px”,fontFamily:PF,fontSize:“0.8rem”,cursor:“pointer”}},”+ Add”)
 ),
-show&&h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:14,marginBottom:14}},
+show&&h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:14,marginBottom:14}},
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
 h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DATE *”),h(‘input’,{type:“date”,style:iS,value:f.date,onChange:e=>setF(v=>(Object.assign({},v,{date:e.target.value})))})),
 h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TIME”),h(‘input’,{type:“time”,style:iS,value:f.time,onChange:e=>setF(v=>(Object.assign({},v,{time:e.target.value})))}))
@@ -192,11 +192,11 @@ h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,
 h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘textarea’,{style:Object.assign({},iS,{resize:“vertical”,minHeight:55}),value:f.notes,onChange:e=>setF(v=>(Object.assign({},v,{notes:e.target.value})))})),
 h(‘div’,{style:{display:“flex”,gap:8}},
 h(‘button’,{onClick:save,style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:7,padding:“7px 18px”,fontFamily:PF,fontSize:“0.82rem”,cursor:“pointer”}},“Save”),
-h(‘button’,{onClick:()=>setShow(false),style:{background:“none”,border:`1px solid ${T.bdr}`,borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
+h(‘button’,{onClick:()=>setShow(false),style:{background:“none”,border:“1px solid “+(T.bdr),borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
 )
 ),
 appts.length===0
-? h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:28,textAlign:“center”,color:T.txMu,fontFamily:SS,fontSize:“0.88rem”,fontStyle:“italic”}},“No appointments logged yet.”)
+? h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:28,textAlign:“center”,color:T.txMu,fontFamily:SS,fontSize:“0.88rem”,fontStyle:“italic”}},“No appointments logged yet.”)
 : h(‘div’,null,
 upcoming.length>0&&h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,fontWeight:700,letterSpacing:“0.1em”,marginBottom:7}},“UPCOMING”),upcoming.map(a=>h(Card,{key:a.id,a}))),
 past.length>0&&h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,fontWeight:700,letterSpacing:“0.1em”,marginTop:12,marginBottom:7}},“COMPLETED”),past.map(a=>h(Card,{key:a.id,a})))
@@ -221,15 +221,15 @@ const W=680,H=160,PL=36,PR=16,PT=12,PB=32,cW=W-PL-PR,cH=H-PT-PB,totalDays=points
 const toX=i=>PL+(i/totalDays)*cW,toY=v=>PT+cH-(v/3)*cH;
 const dp=points.map((p,i)=>(Object.assign({},p,{x:toX(i),y:p.score!==null?toY(p.score):null})));
 const pl=dp.filter(p=>p.score!==null);
-const pathD=pl.length>1?pl.map((p,i)=>`${i===0?"M":"L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(” “):null;
-const areaD=pathD?`${pathD} L${pl[pl.length-1].x.toFixed(1)},${(PT+cH).toFixed(1)} L${pl[0].x.toFixed(1)},${(PT+cH).toFixed(1)} Z`:null;
+const pathD=pl.length>1?pl.map((p,i)=>(i===0?“M”:“L”)+(p.x.toFixed(1))+”,”+(p.y.toFixed(1))).join(” “):null;
+const areaD=pathD?(pathD)+” L”+(pl[pl.length-1].x.toFixed(1))+”,”+((PT+cH).toFixed(1))+” L”+(pl[0].x.toFixed(1))+”,”+((PT+cH).toFixed(1))+” Z”:null;
 const lc=Math.min(5,points.length),li=Array.from({length:lc},(_,i)=>Math.round(i*(points.length-1)/(lc-1||1)));
 const fmtD=d=>d.toLocaleDateString(“en-US”,{month:“short”,day:“numeric”});
 const roll=dp.map((p,i)=>{const w=dp.slice(Math.max(0,i-3),i+4).filter(x=>x.score!==null);return w.length?Object.assign({},p,{avg:w.reduce((s,x)=>s+x.score,0)/w.length}):Object.assign({},p,{avg:null});});
-const avgP=roll.filter(p=>p.avg!==null).map((p,i)=>`${i===0?"M":"L"}${p.x.toFixed(1)},${toY(p.avg).toFixed(1)}`).join(” “);
+const avgP=roll.filter(p=>p.avg!==null).map((p,i)=>(i===0?“M”:“L”)+(p.x.toFixed(1))+”,”+(toY(p.avg).toFixed(1))).join(” “);
 const [hov,setHov]=useState(null);
 return h(‘div’,{style:{position:“relative”}},
-h(‘svg’,{width:“100%”,viewBox:`0 0 ${W} ${H}`,style:{overflow:“visible”,display:“block”}},
+h(‘svg’,{width:“100%”,viewBox:“0 0 “+(W)+” “+(H),style:{overflow:“visible”,display:“block”}},
 h(‘defs’,null,h(‘linearGradient’,{id:“tG2”,x1:“0”,y1:“0”,x2:“0”,y2:“1”},h(‘stop’,{offset:“0%”,stopColor:T.accB,stopOpacity:“0.25”}),h(‘stop’,{offset:“100%”,stopColor:T.accB,stopOpacity:“0.02”}))),
 [1,2,3].map(v=>h(‘line’,{key:v,x1:PL,y1:toY(v),x2:W-PR,y2:toY(v),stroke:T.bdr,strokeWidth:“1”,strokeDasharray:“4,3”})),
 [[“Mild”,1,”#f59e0b”],[“Mod”,2,”#ea580c”],[“Sev”,3,”#dc2626”]].map(([l,v,c])=>h(‘text’,{key:l,x:PL-4,y:toY(v)+4,textAnchor:“end”,fontSize:“9”,fill:c,fontFamily:“Georgia,serif”},l)),
@@ -250,13 +250,13 @@ h(‘div’,{style:{display:“flex”,alignItems:“center”,gap:4,fontSize:�
 
 function Progress({allData,tbiDate,T}){
 const days=Object.entries(allData).filter(([,dd])=>cntChk(dd)>0).map(([k,dd])=>({k,dd}));
-if(!days.length)return h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No data logged yet. Start tracking to see progress.”);
+if(!days.length)return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No data logged yet. Start tracking to see progress.”);
 const allChk={};days.forEach(({dd})=>Object.entries(dd.checked||{}).forEach(([k,v])=>{if(v)allChk[k]=(allChk[k]||0)+1;}));
 const topSyms=Object.entries(allChk).sort(([,a],[,b])=>b-a).slice(0,5).map(([k,c])=>({name:k.split(”::”)[1],count:c}));
 const sevC={Mild:0,Moderate:0,Severe:0};days.forEach(({dd})=>{const s=topSev(dd);if(s)sevC[s]++;});
 const mx=topSyms[0]?.count||1;
 const daysSince=tbiDate?Math.floor((new Date()-parseKey(tbiDate))/(1000*60*60*24)):null;
-const Card=({title,sub,children})=>h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:“14px 16px”,marginBottom:14}},h(‘div’,{style:{marginBottom:12}},h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},title),sub&&h(‘div’,{style:{fontSize:“0.7rem”,color:T.txMu,marginTop:2,fontFamily:SS}},sub)),children);
+const Card=({title,sub,children})=>h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:“14px 16px”,marginBottom:14}},h(‘div’,{style:{marginBottom:12}},h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},title),sub&&h(‘div’,{style:{fontSize:“0.7rem”,color:T.txMu,marginTop:2,fontFamily:SS}},sub)),children);
 return h(‘div’,null,
 daysSince!==null&&h(‘div’,{style:{background:T.hdrBg,borderRadius:11,padding:“14px 20px”,marginBottom:14,display:“flex”,gap:28,flexWrap:“wrap”}},
 [{l:“Days Since Injury”,v:daysSince,c:”#8fa0cc”},{l:“Days Tracked”,v:days.length,c:T.accB},{l:“Tracking Rate”,v:Math.round(days.length/Math.max(daysSince,1)*100)+”%”,c:”#22c55e”}].map(({l,v,c})=>h(‘div’,{key:l},h(‘div’,{style:{fontFamily:PF,fontSize:“1.6rem”,fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:“0.68rem”,color:”#9b8fbf”,marginTop:1}},l)))
@@ -267,7 +267,7 @@ topSyms.map(({name,count},i)=>h(‘div’,{key:name,style:{display:“flex”,al
 h(‘span’,{style:{fontSize:“0.72rem”,color:T.txF,width:14,textAlign:“right”}},(i+1)+”.”),
 h(‘div’,{style:{flex:1}},
 h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,marginBottom:3}},h(‘span’,{style:{fontSize:“0.8rem”,color:T.tx,fontFamily:SS}},name),h(‘span’,{style:{fontSize:“0.72rem”,color:T.txMu}},count+“x”)),
-h(‘div’,{style:{background:T.prBg,borderRadius:99,height:5,overflow:“hidden”}},h(‘div’,{style:{height:“100%”,background:T.prFl,borderRadius:99,width:`${(count/mx)*100}%`}}))
+h(‘div’,{style:{background:T.prBg,borderRadius:99,height:5,overflow:“hidden”}},h(‘div’,{style:{height:“100%”,background:T.prFl,borderRadius:99,width:((count/mx)*100)+”%”}}))
 )
 ))
 ),
@@ -287,32 +287,32 @@ function Summary({allData,onSelect,T}){
 const [filt,setFilt]=useState(“all”);
 const [sort,setSort]=useState(“newest”);
 const days=Object.entries(allData).filter(([,dd])=>cntChk(dd)>0).map(([k,dd])=>({k,date:parseKey(k),dd}));
-if(!days.length)return h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No symptoms logged yet.”);
+if(!days.length)return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No symptoms logged yet.”);
 const filtered=days.filter(({dd})=>filt===“all”||topSev(dd)===filt);
 const sorted=filtered.slice().sort((a,b)=>sort===“newest”?b.k.localeCompare(a.k):a.k.localeCompare(b.k));
 const sevC={Mild:0,Moderate:0,Severe:0};days.forEach(({dd})=>{const s=topSev(dd);if(s)sevC[s]++;});
 return h(‘div’,null,
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“repeat(4,1fr)”,gap:8,marginBottom:18}},
-[{l:“Days Logged”,v:days.length,c:T.accB},{l:“Mild”,v:sevC.Mild,c:”#f59e0b”},{l:“Moderate”,v:sevC.Moderate,c:”#ea580c”},{l:“Severe”,v:sevC.Severe,c:”#dc2626”}].map(({l,v,c})=>h(‘div’,{key:l,style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:10,padding:“12px 8px”,textAlign:“center”}},h(‘div’,{style:{fontFamily:PF,fontSize:“1.5rem”,fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginTop:2}},l)))
+[{l:“Days Logged”,v:days.length,c:T.accB},{l:“Mild”,v:sevC.Mild,c:”#f59e0b”},{l:“Moderate”,v:sevC.Moderate,c:”#ea580c”},{l:“Severe”,v:sevC.Severe,c:”#dc2626”}].map(({l,v,c})=>h(‘div’,{key:l,style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:10,padding:“12px 8px”,textAlign:“center”}},h(‘div’,{style:{fontFamily:PF,fontSize:“1.5rem”,fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginTop:2}},l)))
 ),
 h(‘div’,{style:{display:“flex”,gap:8,marginBottom:12,flexWrap:“wrap”,alignItems:“center”}},
-[“all”,“Mild”,“Moderate”,“Severe”].map(f=>h(‘button’,{key:f,onClick:()=>setFilt(f),style:{padding:“3px 12px”,borderRadius:99,border:`1.5px solid ${filt===f?(f==="all"?T.accB:SEV_HEX[f]):T.bdrM}`,background:filt===f?(f===“all”?T.accB:SEV_HEX[f]):“transparent”,color:filt===f?”#fff”:T.txM,fontSize:“0.75rem”,cursor:“pointer”,outline:“none”}},f===“all”?“All”:f)),
-h(‘button’,{onClick:()=>setSort(s=>s===“newest”?“oldest”:“newest”),style:{marginLeft:“auto”,padding:“3px 12px”,borderRadius:99,border:`1.5px solid ${T.bdrM}`,background:“transparent”,color:T.txM,fontSize:“0.75rem”,cursor:“pointer”,outline:“none”}},sort===“newest”?“Newest”:“Oldest”+” first”)
+[“all”,“Mild”,“Moderate”,“Severe”].map(f=>h(‘button’,{key:f,onClick:()=>setFilt(f),style:{padding:“3px 12px”,borderRadius:99,border:“1.5px solid “+(filt===f?(f===“all”?T.accB:SEV_HEX[f]):T.bdrM),background:filt===f?(f===“all”?T.accB:SEV_HEX[f]):“transparent”,color:filt===f?”#fff”:T.txM,fontSize:“0.75rem”,cursor:“pointer”,outline:“none”}},f===“all”?“All”:f)),
+h(‘button’,{onClick:()=>setSort(s=>s===“newest”?“oldest”:“newest”),style:{marginLeft:“auto”,padding:“3px 12px”,borderRadius:99,border:“1.5px solid “+(T.bdrM),background:“transparent”,color:T.txM,fontSize:“0.75rem”,cursor:“pointer”,outline:“none”}},sort===“newest”?“Newest”:“Oldest”+” first”)
 ),
 h(‘div’,{style:{display:“flex”,flexDirection:“column”,gap:10}},
 sorted.map(({k,date,dd})=>{
 const sev=topSev(dd),cnt=cntChk(dd),items=[];
-SYMPTOMS.forEach(s=>s.items.forEach(item=>{const key=`${s.cat}::${item}`;if(dd.checked?.[key])items.push({item,sev:dd.severity?.[key]});}));
-return h(‘div’,{key:k,style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,overflow:“hidden”}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“10px 16px”,background:T.secH,borderBottom:`1px solid ${T.bdr}`}},
+SYMPTOMS.forEach(s=>s.items.forEach(item=>{const key=(s.cat)+”::”+(item);if(dd.checked?.[key])items.push({item,sev:dd.severity?.[key]});}));
+return h(‘div’,{key:k,style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,overflow:“hidden”}},
+h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“10px 16px”,background:T.secH,borderBottom:“1px solid “+(T.bdr)}},
 h(‘div’,null,h(‘span’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},fmtShort(date)),h(‘span’,{style:{fontSize:“0.72rem”,color:T.txMu,marginLeft:9}},cnt+” symptom”+(cnt!==1?“s”:””))),
 h(‘div’,{style:{display:“flex”,gap:7,alignItems:“center”}},sev&&h(‘span’,{style:{background:SEV_HEX[sev],color:”#fff”,borderRadius:99,padding:“2px 9px”,fontSize:“0.68rem”,fontWeight:700}},sev),h(‘button’,{onClick:()=>onSelect(date),style:{background:T.acc,color:”#f5ecd8”,border:“none”,borderRadius:6,padding:“3px 11px”,fontFamily:PF,fontSize:“0.72rem”,cursor:“pointer”}},“Edit”))
 ),
 h(‘div’,{style:{padding:“9px 16px”,display:“flex”,flexWrap:“wrap”,gap:5}},
-items.slice(0,6).map(({item,sev:sv})=>h(‘span’,{key:item,style:{background:sv?SEV_COL[sv]?.bg:T.accL,border:`1px solid ${sv?SEV_COL[sv]?.bd:T.bdrM}`,borderRadius:5,padding:“2px 9px”,fontSize:“0.7rem”,color:sv?SEV_COL[sv]?.tx:T.txM}},item)),
+items.slice(0,6).map(({item,sev:sv})=>h(‘span’,{key:item,style:{background:sv?SEV_COL[sv]?.bg:T.accL,border:“1px solid “+(sv?SEV_COL[sv]?.bd:T.bdrM),borderRadius:5,padding:“2px 9px”,fontSize:“0.7rem”,color:sv?SEV_COL[sv]?.tx:T.txM}},item)),
 items.length>6&&h(‘span’,{style:{fontSize:“0.7rem”,color:T.txF,padding:“2px 5px”}},”+”+( items.length-6)+” more”)
 ),
-dd.notes&&h(‘div’,{style:{padding:“7px 16px 10px”,fontSize:“0.75rem”,color:T.txMu,fontStyle:“italic”,borderTop:`1px solid ${T.bdr}`}},“📝 “+dd.notes.slice(0,120)+(dd.notes.length>120?”…”:””))
+dd.notes&&h(‘div’,{style:{padding:“7px 16px 10px”,fontSize:“0.75rem”,color:T.txMu,fontStyle:“italic”,borderTop:“1px solid “+(T.bdr)}},“📝 “+dd.notes.slice(0,120)+(dd.notes.length>120?””:””))
 );
 })
 )
@@ -322,9 +322,9 @@ dd.notes&&h(‘div’,{style:{padding:“7px 16px 10px”,fontSize:“0.75rem”
 function PatientForm({info,onChange,onDone,T}){
 const [loc,setLoc]=useState(info);
 const [inj,setInj]=useState(info.additionalInjuries||[]);
-const iS={width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:8,padding:“10px 13px”,fontFamily:SS,fontSize:“0.9rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
+const iS={width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:8,padding:“10px 13px”,fontFamily:SS,fontSize:“0.9rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
 const save=()=>{onChange(Object.assign({},loc,{additionalInjuries:inj}));onDone();};
-return h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:14,overflow:“hidden”,marginBottom:22}},
+return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,overflow:“hidden”,marginBottom:22}},
 h(‘div’,{style:{background:T.hdrBg,padding:“20px 24px”}},
 h(‘div’,{style:{fontFamily:PF,fontSize:“1.3rem”,fontWeight:700,color:T.hdrTx}},“Patient Information”),
 h(‘div’,{style:{fontSize:“0.82rem”,color:T.hdrSub,marginTop:3,fontFamily:SS}},“Complete this once before beginning symptom tracking”)
@@ -340,9 +340,9 @@ h(‘div’,{style:{fontSize:“0.72rem”,fontWeight:700,color:T.txMu,letterSpa
 h(‘textarea’,{placeholder:“Describe how the injury occurred”,value:loc.eventDescription||””,onChange:e=>setLoc(v=>(Object.assign({},v,{eventDescription:e.target.value}))),style:Object.assign({},iS,{resize:“vertical”,minHeight:80,marginBottom:18})}),
 h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:9}},
 h(‘div’,{style:{fontSize:“0.72rem”,fontWeight:700,color:T.txMu,letterSpacing:“0.1em”}},“ADDITIONAL INJURIES”),
-h(‘button’,{onClick:()=>setInj(v=>v.concat([{id:Date.now(),type:””,description:””}])),style:{background:“none”,border:`1px solid ${T.bdrM}`,borderRadius:6,padding:“3px 12px”,fontSize:“0.75rem”,color:T.txM,cursor:“pointer”}},”+ Add”)
+h(‘button’,{onClick:()=>setInj(v=>v.concat([{id:Date.now(),type:””,description:””}])),style:{background:“none”,border:“1px solid “+(T.bdrM),borderRadius:6,padding:“3px 12px”,fontSize:“0.75rem”,color:T.txM,cursor:“pointer”}},”+ Add”)
 ),
-inj.map((ij,i)=>h(‘div’,{key:ij.id,style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:9,padding:“12px 14px”,marginBottom:8}},
+inj.map((ij,i)=>h(‘div’,{key:ij.id,style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:9,padding:“12px 14px”,marginBottom:8}},
 h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,marginBottom:6}},h(‘span’,{style:{fontSize:“0.75rem”,color:T.txMu}},“Injury “+(i+1)),h(‘button’,{onClick:()=>setInj(v=>v.filter(x=>x.id!==ij.id)),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”}},“✕”)),
 h(‘input’,{placeholder:“Type / location”,value:ij.type,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{type:e.target.value}):x)),style:Object.assign({},iS,{marginBottom:7})}),
 h(‘textarea’,{placeholder:“Description”,value:ij.description,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{description:e.target.value}):x)),style:Object.assign({},iS,{resize:“vertical”,minHeight:55})})
@@ -449,9 +449,9 @@ h(‘div’,{style:{fontFamily:PF,fontSize:“1.65rem”,fontWeight:700,color:T.
 h(‘div’,{style:{fontSize:“0.8rem”,color:T.txMu,marginTop:2,fontStyle:“italic”,fontFamily:SS}},“Your symptoms, your data — share it with your doctor, caregiver, or keep it just for you.”),
 lsMsg&&h(‘div’,{style:{fontSize:“0.68rem”,color:”#22c55e”,marginTop:3,fontFamily:SS}},“💾 Data saved locally ✓”)
 ),
-h(‘button’,{onClick:()=>setDark(v=>!v),style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:99,padding:“6px 13px”,cursor:“pointer”,fontSize:“0.8rem”,color:T.txM,outline:“none”}},dark?“☀ Light”:“🌙 Dark”)
+h(‘button’,{onClick:()=>setDark(v=>!v),style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:99,padding:“6px 13px”,cursor:“pointer”,fontSize:“0.8rem”,color:T.txM,outline:“none”}},dark?“☀ Light”:“🌙 Dark”)
 ),
-h(‘div’,{style:{display:“flex”,background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:11,marginBottom:20,overflowX:“auto”}},
+h(‘div’,{style:{display:“flex”,background:T.sur,border:“1px solid “+(T.bdr),borderRadius:11,marginBottom:20,overflowX:“auto”}},
 TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&setTab(id),style:Object.assign({},btnStyle(tab===id),{opacity:dis?0.4:1,cursor:dis?“not-allowed”:“pointer”})},l))
 ),
 
@@ -461,38 +461,38 @@ TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&set
   tab==="log"&&ready&&h('div',null,
     h(PatientBar,{info,onEdit:()=>setTab("info"),T}),
     h('div',{style:{display:"flex",gap:6,marginBottom:14}},
-      [["log","📋 Log"],["heat","🗓 Heat Map"]].map(([v,l])=>h('button',{key:v,onClick:()=>setCalV(v),style:{padding:"5px 14px",borderRadius:99,border:`1.5px solid ${calV===v?T.accB:T.bdrM}`,background:calV===v?T.accB:"transparent",color:calV===v?"#fff":T.txM,fontSize:"0.75rem",cursor:"pointer",outline:"none"}},l))
+      [["log","📋 Log"],["heat","🗓 Heat Map"]].map(([v,l])=>h('button',{key:v,onClick:()=>setCalV(v),style:{padding:"5px 14px",borderRadius:99,border:"1.5px solid "+(calV===v?T.accB:T.bdrM),background:calV===v?T.accB:"transparent",color:calV===v?"#fff":T.txM,fontSize:"0.75rem",cursor:"pointer",outline:"none"}},l))
     ),
     h(Cal,{allData,selKey:dk,onSelect:d=>{setDate(d);setSaved(false);},T,heat:calV==="heat"}),
-    h('div',{style:{background:T.secH,border:`1px solid ${T.bdr}`,borderRadius:9,padding:"8px 15px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between"}},
+    h('div',{style:{background:T.secH,border:"1px solid "+(T.bdr),borderRadius:9,padding:"8px 15px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between"}},
       h('span',{style:{fontFamily:PF,fontSize:"0.92rem",fontWeight:600,color:T.tx}},"📋 "+fmtFull(date)),
-      dk!==toKey(new Date())&&h('button',{onClick:()=>{setDate(new Date());setSaved(false);},style:{background:"none",border:`1.5px solid ${T.bdrM}`,borderRadius:6,padding:"3px 11px",fontSize:"0.73rem",color:T.txM,cursor:"pointer",outline:"none"}},"Today")
+      dk!==toKey(new Date())&&h('button',{onClick:()=>{setDate(new Date());setSaved(false);},style:{background:"none",border:"1.5px solid "+(T.bdrM),borderRadius:6,padding:"3px 11px",fontSize:"0.73rem",color:T.txM,cursor:"pointer",outline:"none"}},"Today")
     ),
-    h('div',{style:{background:T.prBg,borderRadius:99,height:5,marginBottom:5,overflow:"hidden"}},h('div',{style:{height:"100%",background:T.prFl,borderRadius:99,width:`${(chkCnt/totCnt)*100}%`,transition:"width 0.4s"}})),
+    h('div',{style:{background:T.prBg,borderRadius:99,height:5,marginBottom:5,overflow:"hidden"}},h('div',{style:{height:"100%",background:T.prFl,borderRadius:99,width:((chkCnt/totCnt)*100)+"%",transition:"width 0.4s"}})),
     h('div',{style:{fontFamily:SS,fontSize:"0.75rem",color:T.txMu,textAlign:"right",marginBottom:16}},chkCnt+" of "+totCnt+" symptoms noted"),
-    SYMPTOMS.map(sec=>h('div',{key:sec.cat,style:{marginBottom:14,background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:11,overflow:"hidden"}},
-      h('div',{style:{background:T.secH,padding:"10px 16px",fontFamily:PF,fontSize:"0.88rem",fontWeight:600,color:T.secHT,borderBottom:`1px solid ${T.bdr}`}},sec.cat),
+    SYMPTOMS.map(sec=>h('div',{key:sec.cat,style:{marginBottom:14,background:T.sur,border:"1px solid "+(T.bdr),borderRadius:11,overflow:"hidden"}},
+      h('div',{style:{background:T.secH,padding:"10px 16px",fontFamily:PF,fontSize:"0.88rem",fontWeight:600,color:T.secHT,borderBottom:"1px solid "+(T.bdr)}},sec.cat),
       sec.items.map((item,idx)=>{
         const key=sec.cat+"::"+item,isOn=!!getChk()[key],curSev=getSev()[key];
-        return h('div',{key:item,style:{borderBottom:idx<sec.items.length-1?`1px solid ${T.bdr}`:"none"}},
+        return h('div',{key:item,style:{borderBottom:idx<sec.items.length-1?"1px solid "+(T.bdr):"none"}},
           h('div',{onClick:()=>toggle(sec.cat,item),style:{display:"flex",alignItems:"center",gap:12,padding:"9px 16px",cursor:"pointer",background:isOn?T.accL:"transparent"}},
-            h('div',{style:{width:19,height:19,border:`1.5px solid ${isOn?T.accB:T.bdrM}`,borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",background:isOn?T.accB:"transparent"}},isOn&&h('span',{style:{color:"#fff",fontSize:10,fontWeight:"bold"}},"✓")),
+            h('div',{style:{width:19,height:19,border:"1.5px solid "+(isOn?T.accB:T.bdrM),borderRadius:4,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",background:isOn?T.accB:"transparent"}},isOn&&h('span',{style:{color:"#fff",fontSize:10,fontWeight:"bold"}},"✓")),
             h('span',{style:{fontFamily:SS,fontSize:"0.88rem",color:isOn?T.txMu:T.tx,flex:1,lineHeight:1.4,textDecoration:isOn?"line-through":"none"}},item)
           ),
           isOn&&h('div',{style:{display:"flex",gap:7,padding:"4px 16px 9px 47px",alignItems:"center"}},
             h('span',{style:{fontSize:"0.7rem",color:T.txMu,fontStyle:"italic",marginRight:3}},"Severity:"),
-            SEVS.map(lv=>{const c=SEV_COL[lv],on=curSev===lv;return h('button',{key:lv,onClick:()=>setSevFn(sec.cat,item,lv),style:{padding:"2px 11px",borderRadius:99,fontSize:"0.7rem",fontWeight:600,cursor:"pointer",border:`1.5px solid ${on?SEV_HEX[lv]:c.bd}`,background:on?SEV_HEX[lv]:c.bg,color:on?"#fff":c.tx,outline:"none"}},lv);})
+            SEVS.map(lv=>{const c=SEV_COL[lv],on=curSev===lv;return h('button',{key:lv,onClick:()=>setSevFn(sec.cat,item,lv),style:{padding:"2px 11px",borderRadius:99,fontSize:"0.7rem",fontWeight:600,cursor:"pointer",border:"1.5px solid "+(on?SEV_HEX[lv]:c.bd),background:on?SEV_HEX[lv]:c.bg,color:on?"#fff":c.tx,outline:"none"}},lv);})
           )
         );
       })
     )),
-    h('hr',{style:{border:"none",borderTop:`1px solid ${T.bdr}`,margin:"18px 0"}}),
+    h('hr',{style:{border:"none",borderTop:"1px solid "+(T.bdr),margin:"18px 0"}}),
     h('div',{style:{marginBottom:6,fontFamily:PF,fontSize:"0.92rem",fontWeight:600,color:T.tx}},"Daily Notes"),
-    h('textarea',{placeholder:"Add observations for today",value:notes,onChange:e=>{setNotes(e.target.value);setSaved(false);},style:{width:"100%",background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:9,padding:"11px 14px",fontFamily:SS,fontSize:"0.86rem",color:T.tx,resize:"vertical",minHeight:85,outline:"none",boxSizing:"border-box"}}),
+    h('textarea',{placeholder:"Add observations for today",value:notes,onChange:e=>{setNotes(e.target.value);setSaved(false);},style:{width:"100%",background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:9,padding:"11px 14px",fontFamily:SS,fontSize:"0.86rem",color:T.tx,resize:"vertical",minHeight:85,outline:"none",boxSizing:"border-box"}}),
     h('div',{style:{display:"flex",flexWrap:"wrap",gap:8,marginTop:9,alignItems:"center"}},
       h('button',{onClick:saveNotes,style:{background:T.acc,color:"#f5ecd8",border:"none",borderRadius:7,padding:"8px 20px",fontFamily:PF,fontSize:"0.86rem",cursor:"pointer"}},"Save Notes"),
-      h('button',{onClick:exportCSV,style:{background:T.sur,color:T.acc,border:`1.5px solid ${T.bdrM}`,borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Spreadsheet"),
-      h('button',{onClick:exportPDF,style:{background:T.sur,color:T.acc,border:`1.5px solid ${T.bdrM}`,borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Export PDF"),
+      h('button',{onClick:exportCSV,style:{background:T.sur,color:T.acc,border:"1.5px solid "+(T.bdrM),borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Spreadsheet"),
+      h('button',{onClick:exportPDF,style:{background:T.sur,color:T.acc,border:"1.5px solid "+(T.bdrM),borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Export PDF"),
       (saved||expMsg)&&h('span',{style:{fontFamily:SS,fontSize:"0.8rem",color:"#22c55e",fontStyle:"italic"}},expMsg||"Saved ✓")
     )
   ),
@@ -500,10 +500,10 @@ TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&set
   tab==="summary"&&ready&&h('div',null,
     h(PatientBar,{info,onEdit:()=>setTab("info"),T}),
     h(Summary,{allData,onSelect:goDate,T}),
-    h('hr',{style:{border:"none",borderTop:`1px solid ${T.bdr}`,margin:"18px 0"}}),
+    h('hr',{style:{border:"none",borderTop:"1px solid "+(T.bdr),margin:"18px 0"}}),
     h('div',{style:{display:"flex",gap:8}},
-      h('button',{onClick:exportCSV,style:{background:T.sur,color:T.acc,border:`1.5px solid ${T.bdrM}`,borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Spreadsheet"),
-      h('button',{onClick:exportPDF,style:{background:T.sur,color:T.acc,border:`1.5px solid ${T.bdrM}`,borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Export PDF"),
+      h('button',{onClick:exportCSV,style:{background:T.sur,color:T.acc,border:"1.5px solid "+(T.bdrM),borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Spreadsheet"),
+      h('button',{onClick:exportPDF,style:{background:T.sur,color:T.acc,border:"1.5px solid "+(T.bdrM),borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Export PDF"),
       expMsg&&h('span',{style:{fontFamily:SS,fontSize:"0.8rem",color:"#22c55e",fontStyle:"italic"}},expMsg)
     )
   ),
@@ -514,7 +514,7 @@ TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&set
 
   tab==="settings"&&h('div',null,
     h('div',{style:{fontFamily:PF,fontSize:"1.15rem",fontWeight:700,color:T.tx,marginBottom:16}},"Settings"),
-    h('div',{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:18,marginBottom:14}},
+    h('div',{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:18,marginBottom:14}},
       h('div',{style:{fontFamily:PF,fontSize:"0.95rem",fontWeight:600,color:T.tx,marginBottom:4}},"Daily Reminders"),
       h('div',{style:{fontSize:"0.75rem",color:T.txMu,marginBottom:12,fontFamily:SS}},"Set custom times to be reminded to log your symptoms."),
       h('div',{style:{display:"flex",alignItems:"center",gap:9,marginBottom:12}},
@@ -524,19 +524,19 @@ TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&set
         h('span',{style:{fontSize:"0.83rem",color:T.txM,fontFamily:SS}},"Enable reminders")
       ),
       h('div',{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12,opacity:remOn?1:0.5}},
-        h('div',null,h('div',{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:4}},"MORNING"),h('input',{type:"time",disabled:!remOn,value:remT1,onChange:e=>setRemT1(e.target.value),style:{background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:7,padding:"7px 10px",color:T.tx,outline:"none",width:"100%"}})),
-        h('div',null,h('div',{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:4}},"EVENING"),h('input',{type:"time",disabled:!remOn,value:remT2,onChange:e=>setRemT2(e.target.value),style:{background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:7,padding:"7px 10px",color:T.tx,outline:"none",width:"100%"}}))
+        h('div',null,h('div',{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:4}},"MORNING"),h('input',{type:"time",disabled:!remOn,value:remT1,onChange:e=>setRemT1(e.target.value),style:{background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:7,padding:"7px 10px",color:T.tx,outline:"none",width:"100%"}})),
+        h('div',null,h('div',{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:4}},"EVENING"),h('input',{type:"time",disabled:!remOn,value:remT2,onChange:e=>setRemT2(e.target.value),style:{background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:7,padding:"7px 10px",color:T.tx,outline:"none",width:"100%"}}))
       ),
       h('div',{style:{display:"flex",alignItems:"center",gap:9}},
         h('button',{onClick:()=>{setRemSaved(true);setTimeout(()=>setRemSaved(false),2000);},style:{background:T.accB,color:"#fff",border:"none",borderRadius:7,padding:"7px 18px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"Save"),
         remSaved&&h('span',{style:{fontSize:"0.8rem",color:"#22c55e",fontFamily:SS}},"Saved ✓")
       )
     ),
-    h('div',{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:18,marginBottom:14}},
+    h('div',{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:18,marginBottom:14}},
       h('div',{style:{fontFamily:PF,fontSize:"0.95rem",fontWeight:600,color:T.tx,marginBottom:4}},"📲 Install as an App (PWA)"),
       h('div',{style:{fontSize:"0.78rem",color:T.txMu,fontFamily:SS,marginBottom:16,lineHeight:1.6}},"Add to your home screen for a full-screen experience with offline access."),
       [{icon:"🍎",title:"iPhone / iPad (Safari)",steps:["Open in Safari","Tap the Share button","Tap Add to Home Screen","Name it and tap Add"]},{icon:"🤖",title:"Android (Chrome)",steps:["Open in Chrome","Tap the three-dot menu","Tap Add to Home Screen","Tap Add"]},{icon:"💻",title:"Mac / Windows",steps:["Open in Chrome or Edge","Click install icon in address bar","Click Install"]}].map(({icon,title,steps})=>
-        h('div',{key:title,style:{marginBottom:14,padding:"13px 15px",background:T.accL,border:`1px solid ${T.bdr}`,borderRadius:10}},
+        h('div',{key:title,style:{marginBottom:14,padding:"13px 15px",background:T.accL,border:"1px solid "+(T.bdr),borderRadius:10}},
           h('div',{style:{fontFamily:PF,fontSize:"0.88rem",fontWeight:600,color:T.tx,marginBottom:10}},icon+" "+title),
           steps.map((step,i)=>h('div',{key:i,style:{display:"flex",gap:10,marginBottom:7,alignItems:"flex-start"}},
             h('div',{style:{flexShrink:0,width:20,height:20,borderRadius:"50%",background:T.accB,color:"#fff",fontSize:"0.68rem",fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",marginTop:1}},i+1),
@@ -544,19 +544,19 @@ TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&set
           ))
         )
       ),
-      h('div',{style:{padding:"10px 13px",background:T.wBg,border:`1px solid ${T.wBd}`,borderRadius:8,fontSize:"0.73rem",color:T.txM,fontFamily:SS,lineHeight:1.55}},
+      h('div',{style:{padding:"10px 13px",background:T.wBg,border:"1px solid "+(T.wBd),borderRadius:8,fontSize:"0.73rem",color:T.txM,fontFamily:SS,lineHeight:1.55}},
         "💾 ",h('strong',null,"Data saves automatically in this browser.")," Use Export PDF or Spreadsheet regularly as a backup."
       )
     ),
-    h('div',{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:18}},
+    h('div',{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:18}},
       h('div',{style:{fontFamily:PF,fontSize:"0.95rem",fontWeight:600,color:T.tx,marginBottom:10}},"Appearance"),
       h('div',{style:{display:"flex",gap:9}},
-        [["☀ Light",false],["🌙 Dark",true]].map(([l,v])=>h('button',{key:l,onClick:()=>setDark(v),style:{padding:"7px 18px",borderRadius:7,border:`1.5px solid ${dark===v?T.accB:T.bdr}`,background:dark===v?T.accL:T.sur,color:dark===v?T.acc:T.txM,fontSize:"0.83rem",cursor:"pointer",outline:"none"}},l))
+        [["☀ Light",false],["🌙 Dark",true]].map(([l,v])=>h('button',{key:l,onClick:()=>setDark(v),style:{padding:"7px 18px",borderRadius:7,border:"1.5px solid "+(dark===v?T.accB:T.bdr),background:dark===v?T.accL:T.sur,color:dark===v?T.acc:T.txM,fontSize:"0.83rem",cursor:"pointer",outline:"none"}},l))
       )
     )
   ),
 
-  h('div',{style:{marginTop:40,paddingTop:16,borderTop:`1px solid ${T.bdr}`,textAlign:"center",fontFamily:SS,fontSize:"0.7rem",color:T.txF,lineHeight:1.7}},
+  h('div',{style:{marginTop:40,paddingTop:16,borderTop:"1px solid "+(T.bdr),textAlign:"center",fontFamily:SS,fontSize:"0.7rem",color:T.txF,lineHeight:1.7}},
     "© "+(new Date().getFullYear())+" T Lamb · Wild Blue Wanderers",h('br'),
     h('span',{style:{fontSize:"0.65rem"}},"TBI / Concussion Tracker is proprietary software. All rights reserved.",h('br'),"Unauthorized reproduction or distribution is prohibited.")
   )
