@@ -21,29 +21,29 @@ const h = React.createElement;
 const { useState, useEffect } = React;
 
 const SYMPTOMS = [
-{ cat: “General Symptoms”, items: [“Headache or pressure”,“Nausea or vomiting”,“Dizziness or loss of balance”,“Blurred or double vision”,“Sensitivity to light or noise”,“Loss of consciousness”,“Feeling dazed or foggy”,“Memory gaps around injury”,“Persistent or worsening headache”,“Repeated vomiting”,“Seizures or convulsions”,“Weakness or numbness in limbs”,“Loss of coordination”,“Slurred speech”,“Profound confusion or agitation”,“Inability to recognize people or places”,“Unequal pupil size”] },
-{ cat: “Cognitive & Mental”, items: [“Difficulty concentrating”,“Memory problems”,“Slowed thinking or processing”,“Confusion or disorientation”,“Difficulty with problem-solving”] },
-{ cat: “Emotional & Behavioral”, items: [“Mood swings or irritability”,“Anxiety or depression”,“Increased aggression”,“Emotional numbness”,“Impulsivity”] },
-{ cat: “Sleep-Related”, items: [“Sleeping more or less than usual”,“Insomnia”,“Fatigue and drowsiness”] },
-{ cat: “Sensory”, items: [“Ringing in the ears (tinnitus)”,“Changes in smell or taste”,“Visual disturbances”,“Hearing loss”] },
+{ cat: "General Symptoms", items: ["Headache or pressure","Nausea or vomiting","Dizziness or loss of balance","Blurred or double vision","Sensitivity to light or noise","Loss of consciousness","Feeling dazed or foggy","Memory gaps around injury","Persistent or worsening headache","Repeated vomiting","Seizures or convulsions","Weakness or numbness in limbs","Loss of coordination","Slurred speech","Profound confusion or agitation","Inability to recognize people or places","Unequal pupil size"] },
+{ cat: "Cognitive & Mental", items: ["Difficulty concentrating","Memory problems","Slowed thinking or processing","Confusion or disorientation","Difficulty with problem-solving"] },
+{ cat: "Emotional & Behavioral", items: ["Mood swings or irritability","Anxiety or depression","Increased aggression","Emotional numbness","Impulsivity"] },
+{ cat: "Sleep-Related", items: ["Sleeping more or less than usual","Insomnia","Fatigue and drowsiness"] },
+{ cat: "Sensory", items: ["Ringing in the ears (tinnitus)","Changes in smell or taste","Visual disturbances","Hearing loss"] },
 ];
-const SEVS = [“Mild”,“Moderate”,“Severe”];
-const SEV_HEX = {Mild:”#f59e0b”,Moderate:”#ea580c”,Severe:”#dc2626”};
-const SEV_COL = {Mild:{bg:”#fef3c7”,bd:”#f59e0b”,tx:”#92400e”},Moderate:{bg:”#fed7aa”,bd:”#ea580c”,tx:”#7c2d12”},Severe:{bg:”#fecaca”,bd:”#dc2626”,tx:”#7f1d1d”}};
-const LT = {bg:”#eef0f5”,sur:”#f8f9fc”,bdr:”#d4d9e8”,bdrM:”#c2c8da”,tx:”#1e2438”,txM:”#3d4663”,txMu:”#6b75a0”,txF:”#a8b0cc”,acc:”#3d4f8a”,accL:”#e8ebf5”,accB:”#4a5fa8”,hdrBg:”#1e2d4a”,hdrTx:”#e8ecf8”,hdrSub:”#8fa0cc”,secH:”#e8ebf5”,secHT:”#2a3660”,inBg:”#f8f9fc”,inBd:”#d4d9e8”,prBg:”#d4d9e8”,prFl:“linear-gradient(90deg,#4a5fa8,#7b8fd4)”,sh:“rgba(30,40,80,0.06)”,hn:”#e8ebf5”,hm:”#eef0f8”,hmo:”#dde2f5”,hs:”#f5e0e0”,wBg:”#eef0f8”,wBd:”#7b8fd4”};
-const DT = {bg:”#111620”,sur:”#181e2e”,bdr:”#272f48”,bdrM:”#313a56”,tx:”#dde2f0”,txM:”#a0aac8”,txMu:”#626e96”,txF:”#363f5c”,acc:”#5c70b8”,accL:”#1a2040”,accB:”#6b82d4”,hdrBg:”#0d1220”,hdrTx:”#dde2f0”,hdrSub:”#6878a8”,secH:”#181e2e”,secHT:”#a0aac8”,inBg:”#0d1220”,inBd:”#272f48”,prBg:”#272f48”,prFl:“linear-gradient(90deg,#4a5fa8,#6b82d4)”,sh:“rgba(0,0,0,0.3)”,hn:”#181e2e”,hm:”#1a2038”,hmo:”#1e2440”,hs:”#2a1a1a”,wBg:”#181e30”,wBd:”#4a5fa8”};
-const PF = “Playfair Display, Georgia, serif”;
-const SS = “Source Serif 4, Georgia, serif”;
+const SEVS = ["Mild","Moderate","Severe"];
+const SEV_HEX = {Mild:"#f59e0b",Moderate:"#ea580c",Severe:"#dc2626"};
+const SEV_COL = {Mild:{bg:"#fef3c7",bd:"#f59e0b",tx:"#92400e"},Moderate:{bg:"#fed7aa",bd:"#ea580c",tx:"#7c2d12"},Severe:{bg:"#fecaca",bd:"#dc2626",tx:"#7f1d1d"}};
+const LT = {bg:"#eef0f5",sur:"#f8f9fc",bdr:"#d4d9e8",bdrM:"#c2c8da",tx:"#1e2438",txM:"#3d4663",txMu:"#6b75a0",txF:"#a8b0cc",acc:"#3d4f8a",accL:"#e8ebf5",accB:"#4a5fa8",hdrBg:"#1e2d4a",hdrTx:"#e8ecf8",hdrSub:"#8fa0cc",secH:"#e8ebf5",secHT:"#2a3660",inBg:"#f8f9fc",inBd:"#d4d9e8",prBg:"#d4d9e8",prFl:"linear-gradient(90deg,#4a5fa8,#7b8fd4)",sh:"rgba(30,40,80,0.06)",hn:"#e8ebf5",hm:"#eef0f8",hmo:"#dde2f5",hs:"#f5e0e0",wBg:"#eef0f8",wBd:"#7b8fd4"};
+const DT = {bg:"#111620",sur:"#181e2e",bdr:"#272f48",bdrM:"#313a56",tx:"#dde2f0",txM:"#a0aac8",txMu:"#626e96",txF:"#363f5c",acc:"#5c70b8",accL:"#1a2040",accB:"#6b82d4",hdrBg:"#0d1220",hdrTx:"#dde2f0",hdrSub:"#6878a8",secH:"#181e2e",secHT:"#a0aac8",inBg:"#0d1220",inBd:"#272f48",prBg:"#272f48",prFl:"linear-gradient(90deg,#4a5fa8,#6b82d4)",sh:"rgba(0,0,0,0.3)",hn:"#181e2e",hm:"#1a2038",hmo:"#1e2440",hs:"#2a1a1a",wBg:"#181e30",wBd:"#4a5fa8"};
+const PF = "Playfair Display, Georgia, serif";
+const SS = "Source Serif 4, Georgia, serif";
 
-const toKey = d => d.toISOString().split(“T”)[0];
-const parseKey = k => new Date(k+“T12:00:00”);
-const fmtShort = d => d.toLocaleDateString(“en-US”,{month:“short”,day:“numeric”,year:“numeric”});
-const fmtFull = d => d.toLocaleDateString(“en-US”,{weekday:“long”,year:“numeric”,month:“long”,day:“numeric”});
-const topSev = dd => { if(!dd?.severity) return null; const v=Object.values(dd.severity); return v.includes(“Severe”)?“Severe”:v.includes(“Moderate”)?“Moderate”:v.includes(“Mild”)?“Mild”:null; };
+const toKey = d => d.toISOString().split("T")[0];
+const parseKey = k => new Date(k+"T12:00:00");
+const fmtShort = d => d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+const fmtFull = d => d.toLocaleDateString("en-US",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+const topSev = dd => { if(!dd?.severity) return null; const v=Object.values(dd.severity); return v.includes("Severe")?"Severe":v.includes("Moderate")?"Moderate":v.includes("Mild")?"Mild":null; };
 const cntChk = dd => !dd?.checked ? 0 : Object.values(dd.checked).filter(Boolean).length;
 
-const LS_KEY = “tbi_tracker_v2”;
-function loadLS(){try{const d=localStorage.getItem(LS_KEY);if(!d)return null;const p=JSON.parse(d);if(p?.info?.name&&p.info.name.trim().length<=1)p.info.name=””;return p;}catch(e){return null;}}
+const LS_KEY = "tbi_tracker_v2";
+function loadLS(){try{const d=localStorage.getItem(LS_KEY);if(!d)return null;const p=JSON.parse(d);if(p?.info?.name&&p.info.name.trim().length<=1)p.info.name="";return p;}catch(e){return null;}}
 function saveLS(data){try{localStorage.setItem(LS_KEY,JSON.stringify(data));}catch(e){}}
 
 function Cal({allData,selKey,onSelect,T,heat=false}){
@@ -53,89 +53,89 @@ const [vm,setVm]=useState(today.getMonth());
 const first=new Date(vy,vm,1);
 const cells=Array(first.getDay()).fill(null).concat(Array(new Date(vy,vm+1,0).getDate()).fill(0).map((_,i)=>new Date(vy,vm,i+1)));
 const isFut=d=>{const t=new Date();t.setHours(0,0,0,0);return d>t;};
-const heatClr=d=>{const dd=allData[toKey(d)];if(!dd||!cntChk(dd))return T.hn;const s=topSev(dd);return s===“Severe”?T.hs:s===“Moderate”?T.hmo:s===“Mild”?T.hm:T.hn;};
-const navBtn=(lbl,fn)=>h(‘button’,{onClick:fn,style:{background:“none”,border:“1.5px solid “+(T.bdrM),borderRadius:“50%”,width:30,height:30,cursor:“pointer”,color:T.txM,fontSize:“1rem”,display:“flex”,alignItems:“center”,justifyContent:“center”}},lbl);
-return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,padding:“16px 14px”,marginBottom:18,boxShadow:“0 1px 8px “+(T.sh)}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,marginBottom:12}},
-navBtn(”‹”,()=>vm===0?(setVm(11),setVy(y=>y-1)):setVm(m=>m-1)),
-h(‘div’,{style:{textAlign:“center”}},
-h(‘div’,{style:{fontFamily:PF,fontWeight:600,color:T.tx,fontSize:“0.95rem”}},first.toLocaleDateString(“en-US”,{month:“long”,year:“numeric”})),
-heat&&h(‘div’,{style:{fontSize:“0.65rem”,color:T.txMu,marginTop:1}},“Severity Heat Map”)
+const heatClr=d=>{const dd=allData[toKey(d)];if(!dd||!cntChk(dd))return T.hn;const s=topSev(dd);return s==="Severe"?T.hs:s==="Moderate"?T.hmo:s==="Mild"?T.hm:T.hn;};
+const navBtn=(lbl,fn)=>h(‘button’,{onClick:fn,style:{background:"none",border:"1.5px solid "+(T.bdrM),borderRadius:"50%",width:30,height:30,cursor:"pointer",color:T.txM,fontSize:"1rem",display:"flex",alignItems:"center",justifyContent:"center"}},lbl);
+return h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:14,padding:"16px 14px",marginBottom:18,boxShadow:"0 1px 8px "+(T.sh)}},
+h(‘div’,{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
+navBtn("‹",()=>vm===0?(setVm(11),setVy(y=>y-1)):setVm(m=>m-1)),
+h(‘div’,{style:{textAlign:"center"}},
+h(‘div’,{style:{fontFamily:PF,fontWeight:600,color:T.tx,fontSize:"0.95rem"}},first.toLocaleDateString("en-US",{month:"long",year:"numeric"})),
+heat&&h(‘div’,{style:{fontSize:"0.65rem",color:T.txMu,marginTop:1}},"Severity Heat Map")
 ),
-navBtn(”›”,()=>vm===11?(setVm(0),setVy(y=>y+1)):setVm(m=>m+1))
+navBtn("›",()=>vm===11?(setVm(0),setVy(y=>y+1)):setVm(m=>m+1))
 ),
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“repeat(7,1fr)”,gap:3,marginBottom:4}},
-[“Su”,“Mo”,“Tu”,“We”,“Th”,“Fr”,“Sa”].map(d=>h(‘div’,{key:d,style:{textAlign:“center”,fontSize:“0.68rem”,color:T.txMu,fontWeight:600}},d))
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:4}},
+["Su","Mo","Tu","We","Th","Fr","Sa"].map(d=>h(‘div’,{key:d,style:{textAlign:"center",fontSize:"0.68rem",color:T.txMu,fontWeight:600}},d))
 ),
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“repeat(7,1fr)”,gap:3}},
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3}},
 cells.map((date,i)=>{
-if(!date)return h(‘div’,{key:“p”+i});
+if(!date)return h(‘div’,{key:"p"+i});
 const k=toKey(date),isSel=k===selKey,fut=isFut(date),isToday=k===toKey(new Date());
 const dd=allData[k],has=!!(dd?.checked&&Object.values(dd.checked).some(Boolean)),sev=topSev(dd);
-return h(‘button’,{key:k,onClick:()=>!fut&&onSelect(date),style:{position:“relative”,background:isSel?T.accB:heat&&has?heatClr(date):isToday?T.accL:“transparent”,color:isSel?”#fff”:fut?T.txF:T.tx,border:isToday&&!isSel?“1.5px solid “+(T.accB):“1.5px solid “+(heat&&has?T.bdr:“transparent”),borderRadius:7,padding:“4px 2px”,cursor:fut?“not-allowed”:“pointer”,fontSize:“0.8rem”,fontWeight:isToday?700:400,minHeight:32,transition:“all 0.15s”,outline:“none”}},
+return h(‘button’,{key:k,onClick:()=>!fut&&onSelect(date),style:{position:"relative",background:isSel?T.accB:heat&&has?heatClr(date):isToday?T.accL:"transparent",color:isSel?"#fff":fut?T.txF:T.tx,border:isToday&&!isSel?"1.5px solid "+(T.accB):"1.5px solid "+(heat&&has?T.bdr:"transparent"),borderRadius:7,padding:"4px 2px",cursor:fut?"not-allowed":"pointer",fontSize:"0.8rem",fontWeight:isToday?700:400,minHeight:32,transition:"all 0.15s",outline:"none"}},
 date.getDate(),
-!heat&&has&&h(‘span’,{style:{position:“absolute”,bottom:2,left:“50%”,transform:“translateX(-50%)”,width:4,height:4,borderRadius:“50%”,background:isSel?”#fff”:sev?SEV_HEX[sev]:”#4a5fa8”,display:“block”}})
+!heat&&has&&h(‘span’,{style:{position:"absolute",bottom:2,left:"50%",transform:"translateX(-50%)",width:4,height:4,borderRadius:"50%",background:isSel?"#fff":sev?SEV_HEX[sev]:"#4a5fa8",display:"block"}})
 );
 })
 ),
-h(‘div’,{style:{marginTop:10,display:“flex”,gap:10,flexWrap:“wrap”,justifyContent:“center”}},
+h(‘div’,{style:{marginTop:10,display:"flex",gap:10,flexWrap:"wrap",justifyContent:"center"}},
 heat
-? [[“No data”,T.hn],[“Mild”,T.hm],[“Moderate”,T.hmo],[“Severe”,T.hs]].map(([l,c])=>h(‘div’,{key:l,style:{display:“flex”,alignItems:“center”,gap:3,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:11,height:11,borderRadius:2,background:c,border:“1px solid “+(T.bdr),display:“inline-block”}}),l))
-: [[“Mild”,”#f59e0b”],[“Moderate”,”#ea580c”],[“Severe”,”#dc2626”],[“Logged”,”#4a5fa8”]].map(([l,c])=>h(‘div’,{key:l,style:{display:“flex”,alignItems:“center”,gap:3,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:6,height:6,borderRadius:“50%”,background:c,display:“inline-block”}}),l))
+? [["No data",T.hn],["Mild",T.hm],["Moderate",T.hmo],["Severe",T.hs]].map(([l,c])=>h(‘div’,{key:l,style:{display:"flex",alignItems:"center",gap:3,fontSize:"0.68rem",color:T.txMu}},h(‘span’,{style:{width:11,height:11,borderRadius:2,background:c,border:"1px solid "+(T.bdr),display:"inline-block"}}),l))
+: [["Mild","#f59e0b"],["Moderate","#ea580c"],["Severe","#dc2626"],["Logged","#4a5fa8"]].map(([l,c])=>h(‘div’,{key:l,style:{display:"flex",alignItems:"center",gap:3,fontSize:"0.68rem",color:T.txMu}},h(‘span’,{style:{width:6,height:6,borderRadius:"50%",background:c,display:"inline-block"}}),l))
 )
 );
 }
 
 function MedTab({meds,setMeds,medLogs,setMedLogs,dk,T}){
 const [showAdd,setShowAdd]=useState(false);
-const [nm,setNm]=useState({name:””,dosage:””,frequency:””,notes:””});
+const [nm,setNm]=useState({name:"",dosage:"",frequency:"",notes:""});
 const [seId,setSeId]=useState(null);
-const [seText,setSeText]=useState(””);
-const iS={width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
-const addMed=()=>{if(!nm.name.trim())return;setMeds(p=>p.concat([Object.assign({id:Date.now()},nm)]));setNm({name:””,dosage:””,frequency:””,notes:””});setShowAdd(false);};
+const [seText,setSeText]=useState("");
+const iS={width:"100%",background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:8,padding:"8px 11px",fontFamily:SS,fontSize:"0.86rem",color:T.tx,outline:"none",boxSizing:"border-box"};
+const addMed=()=>{if(!nm.name.trim())return;setMeds(p=>p.concat([Object.assign({id:Date.now()},nm)]));setNm({name:"",dosage:"",frequency:"",notes:""});setShowAdd(false);};
 const toggleTaken=id=>setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{taken:!d[id]?.taken});return Object.assign({},p,{[dk]:d});});
-const saveSE=id=>{setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{sideEffects:seText});return Object.assign({},p,{[dk]:d});});setSeId(null);setSeText(””);};
+const saveSE=id=>{setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{sideEffects:seText});return Object.assign({},p,{[dk]:d});});setSeId(null);setSeText("");};
 return h(‘div’,null,
-h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:14}},
-h(‘div’,{style:{fontFamily:PF,fontSize:“1rem”,fontWeight:600,color:T.tx}},“Medications”),
-h(‘button’,{onClick:()=>setShowAdd(v=>!v),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:8,padding:“6px 14px”,fontFamily:PF,fontSize:“0.8rem”,cursor:“pointer”}},”+ Add”)
+h(‘div’,{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}},
+h(‘div’,{style:{fontFamily:PF,fontSize:"1rem",fontWeight:600,color:T.tx}},"Medications"),
+h(‘button’,{onClick:()=>setShowAdd(v=>!v),style:{background:T.accB,color:"#fff",border:"none",borderRadius:8,padding:"6px 14px",fontFamily:PF,fontSize:"0.8rem",cursor:"pointer"}},"+ Add")
 ),
-showAdd&&h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:14,marginBottom:14}},
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NAME *”),h(‘input’,{style:iS,placeholder:“e.g. Ibuprofen”,value:nm.name,onChange:e=>setNm(v=>(Object.assign({},v,{name:e.target.value})))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DOSAGE”),h(‘input’,{style:iS,placeholder:“e.g. 400mg”,value:nm.dosage,onChange:e=>setNm(v=>(Object.assign({},v,{dosage:e.target.value})))}))
+showAdd&&h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:14,marginBottom:14}},
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}},
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"NAME *"),h(‘input’,{style:iS,placeholder:"e.g. Ibuprofen",value:nm.name,onChange:e=>setNm(v=>(Object.assign({},v,{name:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"DOSAGE"),h(‘input’,{style:iS,placeholder:"e.g. 400mg",value:nm.dosage,onChange:e=>setNm(v=>(Object.assign({},v,{dosage:e.target.value})))}))
 ),
-h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“FREQUENCY”),h(‘input’,{style:iS,placeholder:“e.g. Twice daily”,value:nm.frequency,onChange:e=>setNm(v=>(Object.assign({},v,{frequency:e.target.value})))})),
-h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘input’,{style:iS,placeholder:“Prescribing doctor”,value:nm.notes,onChange:e=>setNm(v=>(Object.assign({},v,{notes:e.target.value})))})),
-h(‘div’,{style:{display:“flex”,gap:8}},
-h(‘button’,{onClick:addMed,style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:7,padding:“7px 18px”,fontFamily:PF,fontSize:“0.82rem”,cursor:“pointer”}},“Save”),
-h(‘button’,{onClick:()=>setShowAdd(false),style:{background:“none”,border:“1px solid “+(T.bdr),borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
+h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"FREQUENCY"),h(‘input’,{style:iS,placeholder:"e.g. Twice daily",value:nm.frequency,onChange:e=>setNm(v=>(Object.assign({},v,{frequency:e.target.value})))})),
+h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"NOTES"),h(‘input’,{style:iS,placeholder:"Prescribing doctor",value:nm.notes,onChange:e=>setNm(v=>(Object.assign({},v,{notes:e.target.value})))})),
+h(‘div’,{style:{display:"flex",gap:8}},
+h(‘button’,{onClick:addMed,style:{background:T.accB,color:"#fff",border:"none",borderRadius:7,padding:"7px 18px",fontFamily:PF,fontSize:"0.82rem",cursor:"pointer"}},"Save"),
+h(‘button’,{onClick:()=>setShowAdd(false),style:{background:"none",border:"1px solid "+(T.bdr),borderRadius:7,padding:"7px 14px",fontSize:"0.82rem",cursor:"pointer",color:T.txMu}},"Cancel")
 )
 ),
 meds.length===0
-? h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:28,textAlign:“center”,color:T.txMu,fontFamily:SS,fontSize:“0.88rem”,fontStyle:“italic”}},“No medications added yet.”)
+? h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:28,textAlign:"center",color:T.txMu,fontFamily:SS,fontSize:"0.88rem",fontStyle:"italic"}},"No medications added yet.")
 : meds.map(med=>{
 const log=medLogs[dk]?.[med.id]||{};
-return h(‘div’,{key:med.id,style:{background:T.sur,border:“1px solid “+(log.taken?T.accB:T.bdr),borderRadius:12,overflow:“hidden”,marginBottom:10}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“11px 14px”,background:log.taken?T.accL:T.secH}},
+return h(‘div’,{key:med.id,style:{background:T.sur,border:"1px solid "+(log.taken?T.accB:T.bdr),borderRadius:12,overflow:"hidden",marginBottom:10}},
+h(‘div’,{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"11px 14px",background:log.taken?T.accL:T.secH}},
 h(‘div’,null,
-h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},med.name),
-h(‘div’,{style:{fontSize:“0.75rem”,color:T.txMu,marginTop:1}},med.dosage+(med.dosage&&med.frequency?” · “:””)+med.frequency)
+h(‘div’,{style:{fontFamily:PF,fontSize:"0.9rem",fontWeight:600,color:T.tx}},med.name),
+h(‘div’,{style:{fontSize:"0.75rem",color:T.txMu,marginTop:1}},med.dosage+(med.dosage&&med.frequency?" · ":"")+med.frequency)
 ),
-h(‘div’,{style:{display:“flex”,gap:6}},
-h(‘button’,{onClick:()=>toggleTaken(med.id),style:{background:log.taken?”#22c55e”:“transparent”,color:log.taken?”#fff”:T.txMu,border:“1.5px solid “+(log.taken?”#22c55e”:T.bdrM),borderRadius:99,padding:“3px 12px”,fontSize:“0.72rem”,fontWeight:600,cursor:“pointer”,outline:“none”}},log.taken?“✓ Taken”:“Mark Taken”),
-h(‘button’,{onClick:()=>setMeds(p=>p.filter(m=>m.id!==med.id)),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”,fontSize:“0.9rem”}},“✕”)
+h(‘div’,{style:{display:"flex",gap:6}},
+h(‘button’,{onClick:()=>toggleTaken(med.id),style:{background:log.taken?"#22c55e":"transparent",color:log.taken?"#fff":T.txMu,border:"1.5px solid "+(log.taken?"#22c55e":T.bdrM),borderRadius:99,padding:"3px 12px",fontSize:"0.72rem",fontWeight:600,cursor:"pointer",outline:"none"}},log.taken?"✓ Taken":"Mark Taken"),
+h(‘button’,{onClick:()=>setMeds(p=>p.filter(m=>m.id!==med.id)),style:{background:"none",border:"none",color:T.txF,cursor:"pointer",fontSize:"0.9rem"}},"✕")
 )
 ),
-med.notes&&h(‘div’,{style:{padding:“7px 14px”,fontSize:“0.75rem”,color:T.txMu,borderTop:“1px solid “+(T.bdr)}},“📝 “+med.notes),
-h(‘div’,{style:{padding:“7px 14px”,borderTop:“1px solid “+(T.bdr)}},
-h(‘button’,{onClick:()=>{setSeId(seId===med.id?null:med.id);setSeText(log.sideEffects||””);},style:{fontSize:“0.72rem”,color:log.sideEffects?T.acc:T.txMu,background:“none”,border:“1px solid “+(T.bdr),borderRadius:6,padding:“2px 9px”,cursor:“pointer”,outline:“none”}},log.sideEffects?“⚠ Side effects logged”:”+ Log side effects”)
+med.notes&&h(‘div’,{style:{padding:"7px 14px",fontSize:"0.75rem",color:T.txMu,borderTop:"1px solid "+(T.bdr)}},"📝 "+med.notes),
+h(‘div’,{style:{padding:"7px 14px",borderTop:"1px solid "+(T.bdr)}},
+h(‘button’,{onClick:()=>{setSeId(seId===med.id?null:med.id);setSeText(log.sideEffects||"");},style:{fontSize:"0.72rem",color:log.sideEffects?T.acc:T.txMu,background:"none",border:"1px solid "+(T.bdr),borderRadius:6,padding:"2px 9px",cursor:"pointer",outline:"none"}},log.sideEffects?"⚠ Side effects logged":"+ Log side effects")
 ),
-seId===med.id&&h(‘div’,{style:{padding:“9px 14px”,borderTop:“1px solid “+(T.bdr)}},
-h(‘textarea’,{style:{width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:7,padding:“7px 10px”,fontFamily:SS,fontSize:“0.83rem”,color:T.tx,resize:“vertical”,minHeight:55,outline:“none”,boxSizing:“border-box”},placeholder:“Describe side effects”,value:seText,onChange:e=>setSeText(e.target.value)}),
-h(‘div’,{style:{display:“flex”,gap:7,marginTop:5}},
-h(‘button’,{onClick:()=>saveSE(med.id),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:6,padding:“5px 14px”,fontSize:“0.78rem”,cursor:“pointer”}},“Save”),
-h(‘button’,{onClick:()=>setSeId(null),style:{background:“none”,border:“1px solid “+(T.bdr),borderRadius:6,padding:“5px 10px”,fontSize:“0.78rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
+seId===med.id&&h(‘div’,{style:{padding:"9px 14px",borderTop:"1px solid "+(T.bdr)}},
+h(‘textarea’,{style:{width:"100%",background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:7,padding:"7px 10px",fontFamily:SS,fontSize:"0.83rem",color:T.tx,resize:"vertical",minHeight:55,outline:"none",boxSizing:"border-box"},placeholder:"Describe side effects",value:seText,onChange:e=>setSeText(e.target.value)}),
+h(‘div’,{style:{display:"flex",gap:7,marginTop:5}},
+h(‘button’,{onClick:()=>saveSE(med.id),style:{background:T.accB,color:"#fff",border:"none",borderRadius:6,padding:"5px 14px",fontSize:"0.78rem",cursor:"pointer"}},"Save"),
+h(‘button’,{onClick:()=>setSeId(null),style:{background:"none",border:"1px solid "+(T.bdr),borderRadius:6,padding:"5px 10px",fontSize:"0.78rem",cursor:"pointer",color:T.txMu}},"Cancel")
 )
 )
 );
@@ -146,60 +146,60 @@ h(‘button’,{onClick:()=>setSeId(null),style:{background:“none”,border:�
 function ApptTab({appts,setAppts,T}){
 const [show,setShow]=useState(false);
 const [editId,setEditId]=useState(null);
-const [f,setF]=useState({date:””,time:””,provider:””,type:””,location:””,notes:””});
-const iS={width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
-const openForm=a=>{setF(a?Object.assign({},a):{date:””,time:””,provider:””,type:””,location:””,notes:””});setEditId(a?a.id:null);setShow(true);};
+const [f,setF]=useState({date:"",time:"",provider:"",type:"",location:"",notes:""});
+const iS={width:"100%",background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:8,padding:"8px 11px",fontFamily:SS,fontSize:"0.86rem",color:T.tx,outline:"none",boxSizing:"border-box"};
+const openForm=a=>{setF(a?Object.assign({},a):{date:"",time:"",provider:"",type:"",location:"",notes:""});setEditId(a?a.id:null);setShow(true);};
 const save=()=>{if(!f.date||!f.provider)return;editId?setAppts(p=>p.map(a=>a.id===editId?Object.assign({},f,{id:editId,completed:a.completed}):a)):setAppts(p=>p.concat([Object.assign({},f,{id:Date.now(),completed:false})]));setShow(false);};
 const toggle=id=>setAppts(p=>p.map(a=>a.id===id?Object.assign({},a,{completed:!a.completed}):a));
 const remove=id=>setAppts(p=>p.filter(a=>a.id!==id));
 const upcoming=appts.filter(a=>!a.completed).sort((a,b)=>a.date.localeCompare(b.date));
 const past=appts.filter(a=>a.completed).sort((a,b)=>b.date.localeCompare(a.date));
 const Card=({a})=>{
-const d=a.date?new Date(a.date+“T12:00:00”):null;
-return h(‘div’,{style:{background:T.sur,border:“1px solid “+(a.completed?T.bdrM:T.accB),borderRadius:12,marginBottom:8,overflow:“hidden”,opacity:a.completed?0.7:1}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“10px 14px”,background:a.completed?T.secH:T.accL}},
+const d=a.date?new Date(a.date+"T12:00:00"):null;
+return h(‘div’,{style:{background:T.sur,border:"1px solid "+(a.completed?T.bdrM:T.accB),borderRadius:12,marginBottom:8,overflow:"hidden",opacity:a.completed?0.7:1}},
+h(‘div’,{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:a.completed?T.secH:T.accL}},
 h(‘div’,null,
-h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx,textDecoration:a.completed?“line-through”:“none”}},a.provider+(a.type?” — “+a.type:””)),
-h(‘div’,{style:{fontSize:“0.72rem”,color:T.txMu,marginTop:2}},(d?d.toLocaleDateString(“en-US”,{weekday:“short”,month:“short”,day:“numeric”,year:“numeric”}):””+(a.time?” at “+a.time:””)))
+h(‘div’,{style:{fontFamily:PF,fontSize:"0.9rem",fontWeight:600,color:T.tx,textDecoration:a.completed?"line-through":"none"}},a.provider+(a.type?" -- "+a.type:"")),
+h(‘div’,{style:{fontSize:"0.72rem",color:T.txMu,marginTop:2}},(d?d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}):""+(a.time?" at "+a.time:"")))
 ),
-h(‘div’,{style:{display:“flex”,gap:5}},
-h(‘button’,{onClick:()=>toggle(a.id),style:{fontSize:“0.7rem”,background:a.completed?“transparent”:”#22c55e”,color:a.completed?T.txMu:”#fff”,border:“1px solid “+(a.completed?T.bdr:”#22c55e”),borderRadius:5,padding:“3px 8px”,cursor:“pointer”,outline:“none”}},a.completed?“↩ Undo”:“✓ Done”),
-h(‘button’,{onClick:()=>openForm(a),style:{fontSize:“0.7rem”,background:“none”,color:T.txMu,border:“1px solid “+(T.bdr),borderRadius:5,padding:“3px 7px”,cursor:“pointer”,outline:“none”}},“Edit”),
-h(‘button’,{onClick:()=>remove(a.id),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”,fontSize:“0.88rem”}},“✕”)
+h(‘div’,{style:{display:"flex",gap:5}},
+h(‘button’,{onClick:()=>toggle(a.id),style:{fontSize:"0.7rem",background:a.completed?"transparent":"#22c55e",color:a.completed?T.txMu:"#fff",border:"1px solid "+(a.completed?T.bdr:"#22c55e"),borderRadius:5,padding:"3px 8px",cursor:"pointer",outline:"none"}},a.completed?"↩ Undo":"✓ Done"),
+h(‘button’,{onClick:()=>openForm(a),style:{fontSize:"0.7rem",background:"none",color:T.txMu,border:"1px solid "+(T.bdr),borderRadius:5,padding:"3px 7px",cursor:"pointer",outline:"none"}},"Edit"),
+h(‘button’,{onClick:()=>remove(a.id),style:{background:"none",border:"none",color:T.txF,cursor:"pointer",fontSize:"0.88rem"}},"✕")
 )
 ),
-(a.location||a.notes)&&h(‘div’,{style:{padding:“7px 14px”,borderTop:“1px solid “+(T.bdr)}},
-a.location&&h(‘div’,{style:{fontSize:“0.75rem”,color:T.txMu}},“📍 “+a.location),
-a.notes&&h(‘div’,{style:{fontSize:“0.75rem”,color:T.txMu,fontStyle:“italic”,marginTop:a.location?3:0}},“📝 “+a.notes)
+(a.location||a.notes)&&h(‘div’,{style:{padding:"7px 14px",borderTop:"1px solid "+(T.bdr)}},
+a.location&&h(‘div’,{style:{fontSize:"0.75rem",color:T.txMu}},"📍 "+a.location),
+a.notes&&h(‘div’,{style:{fontSize:"0.75rem",color:T.txMu,fontStyle:"italic",marginTop:a.location?3:0}},"📝 "+a.notes)
 )
 );
 };
 return h(‘div’,null,
-h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:14}},
-h(‘div’,{style:{fontFamily:PF,fontSize:“1rem”,fontWeight:600,color:T.tx}},“Doctor Appointments”),
-h(‘button’,{onClick:()=>openForm(null),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:8,padding:“6px 14px”,fontFamily:PF,fontSize:“0.8rem”,cursor:“pointer”}},”+ Add”)
+h(‘div’,{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}},
+h(‘div’,{style:{fontFamily:PF,fontSize:"1rem",fontWeight:600,color:T.tx}},"Doctor Appointments"),
+h(‘button’,{onClick:()=>openForm(null),style:{background:T.accB,color:"#fff",border:"none",borderRadius:8,padding:"6px 14px",fontFamily:PF,fontSize:"0.8rem",cursor:"pointer"}},"+ Add")
 ),
-show&&h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:14,marginBottom:14}},
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DATE *”),h(‘input’,{type:“date”,style:iS,value:f.date,onChange:e=>setF(v=>(Object.assign({},v,{date:e.target.value})))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TIME”),h(‘input’,{type:“time”,style:iS,value:f.time,onChange:e=>setF(v=>(Object.assign({},v,{time:e.target.value})))}))
+show&&h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:14,marginBottom:14}},
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}},
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"DATE *"),h(‘input’,{type:"date",style:iS,value:f.date,onChange:e=>setF(v=>(Object.assign({},v,{date:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"TIME"),h(‘input’,{type:"time",style:iS,value:f.time,onChange:e=>setF(v=>(Object.assign({},v,{time:e.target.value})))}))
 ),
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“PROVIDER *”),h(‘input’,{style:iS,placeholder:“Dr. Smith”,value:f.provider,onChange:e=>setF(v=>(Object.assign({},v,{provider:e.target.value})))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TYPE”),h(‘input’,{style:iS,placeholder:“Neurology follow-up”,value:f.type,onChange:e=>setF(v=>(Object.assign({},v,{type:e.target.value})))}))
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}},
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"PROVIDER *"),h(‘input’,{style:iS,placeholder:"Dr. Smith",value:f.provider,onChange:e=>setF(v=>(Object.assign({},v,{provider:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"TYPE"),h(‘input’,{style:iS,placeholder:"Neurology follow-up",value:f.type,onChange:e=>setF(v=>(Object.assign({},v,{type:e.target.value})))}))
 ),
-h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“LOCATION”),h(‘input’,{style:iS,value:f.location,onChange:e=>setF(v=>(Object.assign({},v,{location:e.target.value})))})),
-h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘textarea’,{style:Object.assign({},iS,{resize:“vertical”,minHeight:55}),value:f.notes,onChange:e=>setF(v=>(Object.assign({},v,{notes:e.target.value})))})),
-h(‘div’,{style:{display:“flex”,gap:8}},
-h(‘button’,{onClick:save,style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:7,padding:“7px 18px”,fontFamily:PF,fontSize:“0.82rem”,cursor:“pointer”}},“Save”),
-h(‘button’,{onClick:()=>setShow(false),style:{background:“none”,border:“1px solid “+(T.bdr),borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
+h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"LOCATION"),h(‘input’,{style:iS,value:f.location,onChange:e=>setF(v=>(Object.assign({},v,{location:e.target.value})))})),
+h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:3}},"NOTES"),h(‘textarea’,{style:Object.assign({},iS,{resize:"vertical",minHeight:55}),value:f.notes,onChange:e=>setF(v=>(Object.assign({},v,{notes:e.target.value})))})),
+h(‘div’,{style:{display:"flex",gap:8}},
+h(‘button’,{onClick:save,style:{background:T.accB,color:"#fff",border:"none",borderRadius:7,padding:"7px 18px",fontFamily:PF,fontSize:"0.82rem",cursor:"pointer"}},"Save"),
+h(‘button’,{onClick:()=>setShow(false),style:{background:"none",border:"1px solid "+(T.bdr),borderRadius:7,padding:"7px 14px",fontSize:"0.82rem",cursor:"pointer",color:T.txMu}},"Cancel")
 )
 ),
 appts.length===0
-? h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:28,textAlign:“center”,color:T.txMu,fontFamily:SS,fontSize:“0.88rem”,fontStyle:“italic”}},“No appointments logged yet.”)
+? h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:28,textAlign:"center",color:T.txMu,fontFamily:SS,fontSize:"0.88rem",fontStyle:"italic"}},"No appointments logged yet.")
 : h(‘div’,null,
-upcoming.length>0&&h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,fontWeight:700,letterSpacing:“0.1em”,marginBottom:7}},“UPCOMING”),upcoming.map(a=>h(Card,{key:a.id,a}))),
-past.length>0&&h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,fontWeight:700,letterSpacing:“0.1em”,marginTop:12,marginBottom:7}},“COMPLETED”),past.map(a=>h(Card,{key:a.id,a})))
+upcoming.length>0&&h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,fontWeight:700,letterSpacing:"0.1em",marginBottom:7}},"UPCOMING"),upcoming.map(a=>h(Card,{key:a.id,a}))),
+past.length>0&&h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,fontWeight:700,letterSpacing:"0.1em",marginTop:12,marginBottom:7}},"COMPLETED"),past.map(a=>h(Card,{key:a.id,a})))
 )
 );
 }
@@ -208,7 +208,7 @@ function TrendChart({allData,tbiDate,T}){
 const SEV_SCORE={Mild:1,Moderate:2,Severe:3};
 const startDate=tbiDate?parseKey(tbiDate):null;
 const allKeys=Object.keys(allData).filter(k=>cntChk(allData[k])>0).sort();
-if(!allKeys.length||!startDate)return h(‘div’,{style:{textAlign:“center”,padding:“28px 16px”,color:T.txMu,fontFamily:SS,fontSize:“0.85rem”,fontStyle:“italic”}},!startDate?“Enter your TBI date in Patient Info to see your trend chart.”:“No symptom data logged yet.”);
+if(!allKeys.length||!startDate)return h(‘div’,{style:{textAlign:"center",padding:"28px 16px",color:T.txMu,fontFamily:SS,fontSize:"0.85rem",fontStyle:"italic"}},!startDate?"Enter your TBI date in Patient Info to see your trend chart.":"No symptom data logged yet.");
 const today2=new Date();today2.setHours(0,0,0,0);
 const points=[];const cur=new Date(startDate);cur.setHours(0,0,0,0);
 while(cur<=today2){
@@ -221,98 +221,98 @@ const W=680,H=160,PL=36,PR=16,PT=12,PB=32,cW=W-PL-PR,cH=H-PT-PB,totalDays=points
 const toX=i=>PL+(i/totalDays)*cW,toY=v=>PT+cH-(v/3)*cH;
 const dp=points.map((p,i)=>(Object.assign({},p,{x:toX(i),y:p.score!==null?toY(p.score):null})));
 const pl=dp.filter(p=>p.score!==null);
-const pathD=pl.length>1?pl.map((p,i)=>(i===0?“M”:“L”)+(p.x.toFixed(1))+”,”+(p.y.toFixed(1))).join(” “):null;
-const areaD=pathD?(pathD)+” L”+(pl[pl.length-1].x.toFixed(1))+”,”+((PT+cH).toFixed(1))+” L”+(pl[0].x.toFixed(1))+”,”+((PT+cH).toFixed(1))+” Z”:null;
+const pathD=pl.length>1?pl.map((p,i)=>(i===0?"M":"L")+(p.x.toFixed(1))+","+(p.y.toFixed(1))).join(" "):null;
+const areaD=pathD?(pathD)+" L"+(pl[pl.length-1].x.toFixed(1))+","+((PT+cH).toFixed(1))+" L"+(pl[0].x.toFixed(1))+","+((PT+cH).toFixed(1))+" Z":null;
 const lc=Math.min(5,points.length),li=Array.from({length:lc},(_,i)=>Math.round(i*(points.length-1)/(lc-1||1)));
-const fmtD=d=>d.toLocaleDateString(“en-US”,{month:“short”,day:“numeric”});
+const fmtD=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
 const roll=dp.map((p,i)=>{const w=dp.slice(Math.max(0,i-3),i+4).filter(x=>x.score!==null);return w.length?Object.assign({},p,{avg:w.reduce((s,x)=>s+x.score,0)/w.length}):Object.assign({},p,{avg:null});});
-const avgP=roll.filter(p=>p.avg!==null).map((p,i)=>(i===0?“M”:“L”)+(p.x.toFixed(1))+”,”+(toY(p.avg).toFixed(1))).join(” “);
+const avgP=roll.filter(p=>p.avg!==null).map((p,i)=>(i===0?"M":"L")+(p.x.toFixed(1))+","+(toY(p.avg).toFixed(1))).join(" ");
 const [hov,setHov]=useState(null);
-return h(‘div’,{style:{position:“relative”}},
-h(‘svg’,{width:“100%”,viewBox:“0 0 “+(W)+” “+(H),style:{overflow:“visible”,display:“block”}},
-h(‘defs’,null,h(‘linearGradient’,{id:“tG2”,x1:“0”,y1:“0”,x2:“0”,y2:“1”},h(‘stop’,{offset:“0%”,stopColor:T.accB,stopOpacity:“0.25”}),h(‘stop’,{offset:“100%”,stopColor:T.accB,stopOpacity:“0.02”}))),
-[1,2,3].map(v=>h(‘line’,{key:v,x1:PL,y1:toY(v),x2:W-PR,y2:toY(v),stroke:T.bdr,strokeWidth:“1”,strokeDasharray:“4,3”})),
-[[“Mild”,1,”#f59e0b”],[“Mod”,2,”#ea580c”],[“Sev”,3,”#dc2626”]].map(([l,v,c])=>h(‘text’,{key:l,x:PL-4,y:toY(v)+4,textAnchor:“end”,fontSize:“9”,fill:c,fontFamily:“Georgia,serif”},l)),
-areaD&&h(‘path’,{d:areaD,fill:“url(#tG2)”}),
-pathD&&h(‘path’,{d:pathD,fill:“none”,stroke:T.accB,strokeWidth:“1.5”,strokeLinejoin:“round”,strokeLinecap:“round”,opacity:“0.5”}),
-avgP&&h(‘path’,{d:avgP,fill:“none”,stroke:T.accB,strokeWidth:“2.5”,strokeLinejoin:“round”,strokeLinecap:“round”}),
-pl.map(p=>h(‘circle’,{key:p.k,cx:p.x,cy:p.y,r:hov===p.k?5:3,fill:p.score>=2.5?”#dc2626”:p.score>=1.5?”#ea580c”:”#f59e0b”,stroke:T.sur,strokeWidth:“1.5”,style:{cursor:“pointer”},onMouseEnter:()=>setHov(p.k),onMouseLeave:()=>setHov(null)})),
-hov&&(()=>{const p=dp.find(x=>x.k===hov);if(!p||p.score===null)return null;const tx=Math.min(Math.max(p.x,PL+40),W-PR-40);return h(‘g’,null,h(‘rect’,{x:tx-40,y:p.y-34,width:80,height:28,rx:5,fill:T.sur,stroke:T.bdr,strokeWidth:“1”}),h(‘text’,{x:tx,y:p.y-22,textAnchor:“middle”,fontSize:“9”,fill:T.txMu,fontFamily:“Georgia,serif”},fmtD(p.date)),h(‘text’,{x:tx,y:p.y-11,textAnchor:“middle”,fontSize:“10”,fontWeight:“600”,fill:T.tx,fontFamily:“Georgia,serif”},p.cnt+” symptom”+(p.cnt!==1?“s”:””)));})(),
-li.map(i=>h(‘text’,{key:i,x:toX(i),y:H-4,textAnchor:“middle”,fontSize:“9”,fill:T.txMu,fontFamily:“Georgia,serif”},fmtD(points[i].date))),
-h(‘line’,{x1:toX(points.length-1),y1:PT,x2:toX(points.length-1),y2:PT+cH,stroke:T.accB,strokeWidth:“1”,strokeDasharray:“3,3”,opacity:“0.5”})
+return h(‘div’,{style:{position:"relative"}},
+h(‘svg’,{width:"100%",viewBox:"0 0 "+(W)+" "+(H),style:{overflow:"visible",display:"block"}},
+h(‘defs’,null,h(‘linearGradient’,{id:"tG2",x1:"0",y1:"0",x2:"0",y2:"1"},h(‘stop’,{offset:"0%",stopColor:T.accB,stopOpacity:"0.25"}),h(‘stop’,{offset:"100%",stopColor:T.accB,stopOpacity:"0.02"}))),
+[1,2,3].map(v=>h(‘line’,{key:v,x1:PL,y1:toY(v),x2:W-PR,y2:toY(v),stroke:T.bdr,strokeWidth:"1",strokeDasharray:"4,3"})),
+[["Mild",1,"#f59e0b"],["Mod",2,"#ea580c"],["Sev",3,"#dc2626"]].map(([l,v,c])=>h(‘text’,{key:l,x:PL-4,y:toY(v)+4,textAnchor:"end",fontSize:"9",fill:c,fontFamily:"Georgia,serif"},l)),
+areaD&&h(‘path’,{d:areaD,fill:"url(#tG2)"}),
+pathD&&h(‘path’,{d:pathD,fill:"none",stroke:T.accB,strokeWidth:"1.5",strokeLinejoin:"round",strokeLinecap:"round",opacity:"0.5"}),
+avgP&&h(‘path’,{d:avgP,fill:"none",stroke:T.accB,strokeWidth:"2.5",strokeLinejoin:"round",strokeLinecap:"round"}),
+pl.map(p=>h(‘circle’,{key:p.k,cx:p.x,cy:p.y,r:hov===p.k?5:3,fill:p.score>=2.5?"#dc2626":p.score>=1.5?"#ea580c":"#f59e0b",stroke:T.sur,strokeWidth:"1.5",style:{cursor:"pointer"},onMouseEnter:()=>setHov(p.k),onMouseLeave:()=>setHov(null)})),
+hov&&(()=>{const p=dp.find(x=>x.k===hov);if(!p||p.score===null)return null;const tx=Math.min(Math.max(p.x,PL+40),W-PR-40);return h(‘g’,null,h(‘rect’,{x:tx-40,y:p.y-34,width:80,height:28,rx:5,fill:T.sur,stroke:T.bdr,strokeWidth:"1"}),h(‘text’,{x:tx,y:p.y-22,textAnchor:"middle",fontSize:"9",fill:T.txMu,fontFamily:"Georgia,serif"},fmtD(p.date)),h(‘text’,{x:tx,y:p.y-11,textAnchor:"middle",fontSize:"10",fontWeight:"600",fill:T.tx,fontFamily:"Georgia,serif"},p.cnt+" symptom"+(p.cnt!==1?"s":"")));})(),
+li.map(i=>h(‘text’,{key:i,x:toX(i),y:H-4,textAnchor:"middle",fontSize:"9",fill:T.txMu,fontFamily:"Georgia,serif"},fmtD(points[i].date))),
+h(‘line’,{x1:toX(points.length-1),y1:PT,x2:toX(points.length-1),y2:PT+cH,stroke:T.accB,strokeWidth:"1",strokeDasharray:"3,3",opacity:"0.5"})
 ),
-h(‘div’,{style:{display:“flex”,gap:14,marginTop:6,justifyContent:“flex-end”}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,gap:4,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:16,height:2,background:T.accB,opacity:0.5,display:“inline-block”,borderRadius:1}}),” Daily”),
-h(‘div’,{style:{display:“flex”,alignItems:“center”,gap:4,fontSize:“0.68rem”,color:T.txMu}},h(‘span’,{style:{width:16,height:3,background:T.accB,display:“inline-block”,borderRadius:1}}),” 7-day avg”)
+h(‘div’,{style:{display:"flex",gap:14,marginTop:6,justifyContent:"flex-end"}},
+h(‘div’,{style:{display:"flex",alignItems:"center",gap:4,fontSize:"0.68rem",color:T.txMu}},h(‘span’,{style:{width:16,height:2,background:T.accB,opacity:0.5,display:"inline-block",borderRadius:1}})," Daily"),
+h(‘div’,{style:{display:"flex",alignItems:"center",gap:4,fontSize:"0.68rem",color:T.txMu}},h(‘span’,{style:{width:16,height:3,background:T.accB,display:"inline-block",borderRadius:1}})," 7-day avg")
 )
 );
 }
 
 function Progress({allData,tbiDate,T}){
 const days=Object.entries(allData).filter(([,dd])=>cntChk(dd)>0).map(([k,dd])=>({k,dd}));
-if(!days.length)return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No data logged yet. Start tracking to see progress.”);
+if(!days.length)return h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:14,padding:36,textAlign:"center",color:T.txMu,fontFamily:SS,fontStyle:"italic"}},"No data logged yet. Start tracking to see progress.");
 const allChk={};days.forEach(({dd})=>Object.entries(dd.checked||{}).forEach(([k,v])=>{if(v)allChk[k]=(allChk[k]||0)+1;}));
-const topSyms=Object.entries(allChk).sort(([,a],[,b])=>b-a).slice(0,5).map(([k,c])=>({name:k.split(”::”)[1],count:c}));
+const topSyms=Object.entries(allChk).sort(([,a],[,b])=>b-a).slice(0,5).map(([k,c])=>({name:k.split("::")[1],count:c}));
 const sevC={Mild:0,Moderate:0,Severe:0};days.forEach(({dd})=>{const s=topSev(dd);if(s)sevC[s]++;});
 const mx=topSyms[0]?.count||1;
 const daysSince=tbiDate?Math.floor((new Date()-parseKey(tbiDate))/(1000*60*60*24)):null;
-const Card=({title,sub,children})=>h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,padding:“14px 16px”,marginBottom:14}},h(‘div’,{style:{marginBottom:12}},h(‘div’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},title),sub&&h(‘div’,{style:{fontSize:“0.7rem”,color:T.txMu,marginTop:2,fontFamily:SS}},sub)),children);
+const Card=({title,sub,children})=>h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,padding:"14px 16px",marginBottom:14}},h(‘div’,{style:{marginBottom:12}},h(‘div’,{style:{fontFamily:PF,fontSize:"0.9rem",fontWeight:600,color:T.tx}},title),sub&&h(‘div’,{style:{fontSize:"0.7rem",color:T.txMu,marginTop:2,fontFamily:SS}},sub)),children);
 return h(‘div’,null,
-daysSince!==null&&h(‘div’,{style:{background:T.hdrBg,borderRadius:11,padding:“14px 20px”,marginBottom:14,display:“flex”,gap:28,flexWrap:“wrap”}},
-[{l:“Days Since Injury”,v:daysSince,c:”#8fa0cc”},{l:“Days Tracked”,v:days.length,c:T.accB},{l:“Tracking Rate”,v:Math.round(days.length/Math.max(daysSince,1)*100)+”%”,c:”#22c55e”}].map(({l,v,c})=>h(‘div’,{key:l},h(‘div’,{style:{fontFamily:PF,fontSize:“1.6rem”,fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:“0.68rem”,color:”#9b8fbf”,marginTop:1}},l)))
+daysSince!==null&&h(‘div’,{style:{background:T.hdrBg,borderRadius:11,padding:"14px 20px",marginBottom:14,display:"flex",gap:28,flexWrap:"wrap"}},
+[{l:"Days Since Injury",v:daysSince,c:"#8fa0cc"},{l:"Days Tracked",v:days.length,c:T.accB},{l:"Tracking Rate",v:Math.round(days.length/Math.max(daysSince,1)*100)+"%",c:"#22c55e"}].map(({l,v,c})=>h(‘div’,{key:l},h(‘div’,{style:{fontFamily:PF,fontSize:"1.6rem",fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:"0.68rem",color:"#9b8fbf",marginTop:1}},l)))
 ),
-h(Card,{title:“Symptom Trend”,sub:“Average severity score per day — hover dots for details”},h(TrendChart,{allData,tbiDate,T})),
-h(Card,{title:“Most Frequent Symptoms”},
-topSyms.map(({name,count},i)=>h(‘div’,{key:name,style:{display:“flex”,alignItems:“center”,gap:8,marginBottom:8}},
-h(‘span’,{style:{fontSize:“0.72rem”,color:T.txF,width:14,textAlign:“right”}},(i+1)+”.”),
+h(Card,{title:"Symptom Trend",sub:"Average severity score per day -- hover dots for details"},h(TrendChart,{allData,tbiDate,T})),
+h(Card,{title:"Most Frequent Symptoms"},
+topSyms.map(({name,count},i)=>h(‘div’,{key:name,style:{display:"flex",alignItems:"center",gap:8,marginBottom:8}},
+h(‘span’,{style:{fontSize:"0.72rem",color:T.txF,width:14,textAlign:"right"}},(i+1)+"."),
 h(‘div’,{style:{flex:1}},
-h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,marginBottom:3}},h(‘span’,{style:{fontSize:“0.8rem”,color:T.tx,fontFamily:SS}},name),h(‘span’,{style:{fontSize:“0.72rem”,color:T.txMu}},count+“x”)),
-h(‘div’,{style:{background:T.prBg,borderRadius:99,height:5,overflow:“hidden”}},h(‘div’,{style:{height:“100%”,background:T.prFl,borderRadius:99,width:((count/mx)*100)+”%”}}))
+h(‘div’,{style:{display:"flex",justifyContent:"space-between",marginBottom:3}},h(‘span’,{style:{fontSize:"0.8rem",color:T.tx,fontFamily:SS}},name),h(‘span’,{style:{fontSize:"0.72rem",color:T.txMu}},count+"x")),
+h(‘div’,{style:{background:T.prBg,borderRadius:99,height:5,overflow:"hidden"}},h(‘div’,{style:{height:"100%",background:T.prFl,borderRadius:99,width:((count/mx)*100)+"%"}}))
 )
 ))
 ),
-h(Card,{title:“Severity Breakdown”},
-h(‘div’,{style:{display:“flex”,gap:3,height:36,borderRadius:7,overflow:“hidden”,marginBottom:10}},
-[[“Severe”,”#dc2626”,sevC.Severe],[“Moderate”,”#ea580c”,sevC.Moderate],[“Mild”,”#f59e0b”,sevC.Mild]].map(([l,c,v])=>v>0&&h(‘div’,{key:l,style:{flex:v,background:c,display:“flex”,alignItems:“center”,justifyContent:“center”,fontSize:“0.62rem”,color:”#fff”,fontWeight:700,minWidth:16}},v))
+h(Card,{title:"Severity Breakdown"},
+h(‘div’,{style:{display:"flex",gap:3,height:36,borderRadius:7,overflow:"hidden",marginBottom:10}},
+[["Severe","#dc2626",sevC.Severe],["Moderate","#ea580c",sevC.Moderate],["Mild","#f59e0b",sevC.Mild]].map(([l,c,v])=>v>0&&h(‘div’,{key:l,style:{flex:v,background:c,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.62rem",color:"#fff",fontWeight:700,minWidth:16}},v))
 ),
-h(‘div’,{style:{display:“flex”,gap:12,flexWrap:“wrap”}},
-[[“Severe”,”#dc2626”,sevC.Severe],[“Moderate”,”#ea580c”,sevC.Moderate],[“Mild”,”#f59e0b”,sevC.Mild]].map(([l,c,v])=>h(‘div’,{key:l,style:{display:“flex”,alignItems:“center”,gap:4,fontSize:“0.75rem”,color:T.txMu}},h(‘span’,{style:{width:9,height:9,borderRadius:2,background:c,display:“inline-block”}}),l+”: “+v+” day”+(v!==1?“s”:””)+” “,days.length>0&&h(‘span’,{style:{color:T.txF}},”(”+Math.round(v/days.length*100)+”%)”)))
+h(‘div’,{style:{display:"flex",gap:12,flexWrap:"wrap"}},
+[["Severe","#dc2626",sevC.Severe],["Moderate","#ea580c",sevC.Moderate],["Mild","#f59e0b",sevC.Mild]].map(([l,c,v])=>h(‘div’,{key:l,style:{display:"flex",alignItems:"center",gap:4,fontSize:"0.75rem",color:T.txMu}},h(‘span’,{style:{width:9,height:9,borderRadius:2,background:c,display:"inline-block"}}),l+": "+v+" day"+(v!==1?"s":"")+" ",days.length>0&&h(‘span’,{style:{color:T.txF}},"("+Math.round(v/days.length*100)+"%)")))
 )
 ),
-h(Card,{title:“Heat Map — Severity Overview”},h(Cal,{allData,selKey:null,onSelect:()=>{},T,heat:true}))
+h(Card,{title:"Heat Map -- Severity Overview"},h(Cal,{allData,selKey:null,onSelect:()=>{},T,heat:true}))
 );
 }
 
 function Summary({allData,onSelect,T}){
-const [filt,setFilt]=useState(“all”);
-const [sort,setSort]=useState(“newest”);
+const [filt,setFilt]=useState("all");
+const [sort,setSort]=useState("newest");
 const days=Object.entries(allData).filter(([,dd])=>cntChk(dd)>0).map(([k,dd])=>({k,date:parseKey(k),dd}));
-if(!days.length)return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No symptoms logged yet.”);
-const filtered=days.filter(({dd})=>filt===“all”||topSev(dd)===filt);
-const sorted=filtered.slice().sort((a,b)=>sort===“newest”?b.k.localeCompare(a.k):a.k.localeCompare(b.k));
+if(!days.length)return h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:14,padding:36,textAlign:"center",color:T.txMu,fontFamily:SS,fontStyle:"italic"}},"No symptoms logged yet.");
+const filtered=days.filter(({dd})=>filt==="all"||topSev(dd)===filt);
+const sorted=filtered.slice().sort((a,b)=>sort==="newest"?b.k.localeCompare(a.k):a.k.localeCompare(b.k));
 const sevC={Mild:0,Moderate:0,Severe:0};days.forEach(({dd})=>{const s=topSev(dd);if(s)sevC[s]++;});
 return h(‘div’,null,
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“repeat(4,1fr)”,gap:8,marginBottom:18}},
-[{l:“Days Logged”,v:days.length,c:T.accB},{l:“Mild”,v:sevC.Mild,c:”#f59e0b”},{l:“Moderate”,v:sevC.Moderate,c:”#ea580c”},{l:“Severe”,v:sevC.Severe,c:”#dc2626”}].map(({l,v,c})=>h(‘div’,{key:l,style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:10,padding:“12px 8px”,textAlign:“center”}},h(‘div’,{style:{fontFamily:PF,fontSize:“1.5rem”,fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginTop:2}},l)))
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:18}},
+[{l:"Days Logged",v:days.length,c:T.accB},{l:"Mild",v:sevC.Mild,c:"#f59e0b"},{l:"Moderate",v:sevC.Moderate,c:"#ea580c"},{l:"Severe",v:sevC.Severe,c:"#dc2626"}].map(({l,v,c})=>h(‘div’,{key:l,style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:10,padding:"12px 8px",textAlign:"center"}},h(‘div’,{style:{fontFamily:PF,fontSize:"1.5rem",fontWeight:700,color:c}},v),h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginTop:2}},l)))
 ),
-h(‘div’,{style:{display:“flex”,gap:8,marginBottom:12,flexWrap:“wrap”,alignItems:“center”}},
-[“all”,“Mild”,“Moderate”,“Severe”].map(f=>h(‘button’,{key:f,onClick:()=>setFilt(f),style:{padding:“3px 12px”,borderRadius:99,border:“1.5px solid “+(filt===f?(f===“all”?T.accB:SEV_HEX[f]):T.bdrM),background:filt===f?(f===“all”?T.accB:SEV_HEX[f]):“transparent”,color:filt===f?”#fff”:T.txM,fontSize:“0.75rem”,cursor:“pointer”,outline:“none”}},f===“all”?“All”:f)),
-h(‘button’,{onClick:()=>setSort(s=>s===“newest”?“oldest”:“newest”),style:{marginLeft:“auto”,padding:“3px 12px”,borderRadius:99,border:“1.5px solid “+(T.bdrM),background:“transparent”,color:T.txM,fontSize:“0.75rem”,cursor:“pointer”,outline:“none”}},sort===“newest”?“Newest”:“Oldest”+” first”)
+h(‘div’,{style:{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap",alignItems:"center"}},
+["all","Mild","Moderate","Severe"].map(f=>h(‘button’,{key:f,onClick:()=>setFilt(f),style:{padding:"3px 12px",borderRadius:99,border:"1.5px solid "+(filt===f?(f==="all"?T.accB:SEV_HEX[f]):T.bdrM),background:filt===f?(f==="all"?T.accB:SEV_HEX[f]):"transparent",color:filt===f?"#fff":T.txM,fontSize:"0.75rem",cursor:"pointer",outline:"none"}},f==="all"?"All":f)),
+h(‘button’,{onClick:()=>setSort(s=>s==="newest"?"oldest":"newest"),style:{marginLeft:"auto",padding:"3px 12px",borderRadius:99,border:"1.5px solid "+(T.bdrM),background:"transparent",color:T.txM,fontSize:"0.75rem",cursor:"pointer",outline:"none"}},sort==="newest"?"Newest":"Oldest"+" first")
 ),
-h(‘div’,{style:{display:“flex”,flexDirection:“column”,gap:10}},
+h(‘div’,{style:{display:"flex",flexDirection:"column",gap:10}},
 sorted.map(({k,date,dd})=>{
 const sev=topSev(dd),cnt=cntChk(dd),items=[];
-SYMPTOMS.forEach(s=>s.items.forEach(item=>{const key=(s.cat)+”::”+(item);if(dd.checked?.[key])items.push({item,sev:dd.severity?.[key]});}));
-return h(‘div’,{key:k,style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:12,overflow:“hidden”}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,padding:“10px 16px”,background:T.secH,borderBottom:“1px solid “+(T.bdr)}},
-h(‘div’,null,h(‘span’,{style:{fontFamily:PF,fontSize:“0.9rem”,fontWeight:600,color:T.tx}},fmtShort(date)),h(‘span’,{style:{fontSize:“0.72rem”,color:T.txMu,marginLeft:9}},cnt+” symptom”+(cnt!==1?“s”:””))),
-h(‘div’,{style:{display:“flex”,gap:7,alignItems:“center”}},sev&&h(‘span’,{style:{background:SEV_HEX[sev],color:”#fff”,borderRadius:99,padding:“2px 9px”,fontSize:“0.68rem”,fontWeight:700}},sev),h(‘button’,{onClick:()=>onSelect(date),style:{background:T.acc,color:”#f5ecd8”,border:“none”,borderRadius:6,padding:“3px 11px”,fontFamily:PF,fontSize:“0.72rem”,cursor:“pointer”}},“Edit”))
+SYMPTOMS.forEach(s=>s.items.forEach(item=>{const key=(s.cat)+"::"+(item);if(dd.checked?.[key])items.push({item,sev:dd.severity?.[key]});}));
+return h(‘div’,{key:k,style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:12,overflow:"hidden"}},
+h(‘div’,{style:{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 16px",background:T.secH,borderBottom:"1px solid "+(T.bdr)}},
+h(‘div’,null,h(‘span’,{style:{fontFamily:PF,fontSize:"0.9rem",fontWeight:600,color:T.tx}},fmtShort(date)),h(‘span’,{style:{fontSize:"0.72rem",color:T.txMu,marginLeft:9}},cnt+" symptom"+(cnt!==1?"s":""))),
+h(‘div’,{style:{display:"flex",gap:7,alignItems:"center"}},sev&&h(‘span’,{style:{background:SEV_HEX[sev],color:"#fff",borderRadius:99,padding:"2px 9px",fontSize:"0.68rem",fontWeight:700}},sev),h(‘button’,{onClick:()=>onSelect(date),style:{background:T.acc,color:"#f5ecd8",border:"none",borderRadius:6,padding:"3px 11px",fontFamily:PF,fontSize:"0.72rem",cursor:"pointer"}},"Edit"))
 ),
-h(‘div’,{style:{padding:“9px 16px”,display:“flex”,flexWrap:“wrap”,gap:5}},
-items.slice(0,6).map(({item,sev:sv})=>h(‘span’,{key:item,style:{background:sv?SEV_COL[sv]?.bg:T.accL,border:“1px solid “+(sv?SEV_COL[sv]?.bd:T.bdrM),borderRadius:5,padding:“2px 9px”,fontSize:“0.7rem”,color:sv?SEV_COL[sv]?.tx:T.txM}},item)),
-items.length>6&&h(‘span’,{style:{fontSize:“0.7rem”,color:T.txF,padding:“2px 5px”}},”+”+( items.length-6)+” more”)
+h(‘div’,{style:{padding:"9px 16px",display:"flex",flexWrap:"wrap",gap:5}},
+items.slice(0,6).map(({item,sev:sv})=>h(‘span’,{key:item,style:{background:sv?SEV_COL[sv]?.bg:T.accL,border:"1px solid "+(sv?SEV_COL[sv]?.bd:T.bdrM),borderRadius:5,padding:"2px 9px",fontSize:"0.7rem",color:sv?SEV_COL[sv]?.tx:T.txM}},item)),
+items.length>6&&h(‘span’,{style:{fontSize:"0.7rem",color:T.txF,padding:"2px 5px"}},"+"+( items.length-6)+" more")
 ),
-dd.notes&&h(‘div’,{style:{padding:“7px 16px 10px”,fontSize:“0.75rem”,color:T.txMu,fontStyle:“italic”,borderTop:“1px solid “+(T.bdr)}},“📝 “+dd.notes.slice(0,120)+(dd.notes.length>120?””:””))
+dd.notes&&h(‘div’,{style:{padding:"7px 16px 10px",fontSize:"0.75rem",color:T.txMu,fontStyle:"italic",borderTop:"1px solid "+(T.bdr)}},"📝 "+dd.notes.slice(0,120)+(dd.notes.length>120?"":""))
 );
 })
 )
@@ -322,44 +322,44 @@ dd.notes&&h(‘div’,{style:{padding:“7px 16px 10px”,fontSize:“0.75rem”
 function PatientForm({info,onChange,onDone,T}){
 const [loc,setLoc]=useState(info);
 const [inj,setInj]=useState(info.additionalInjuries||[]);
-const iS={width:“100%”,background:T.inBg,border:“1px solid “+(T.inBd),borderRadius:8,padding:“10px 13px”,fontFamily:SS,fontSize:“0.9rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
+const iS={width:"100%",background:T.inBg,border:"1px solid "+(T.inBd),borderRadius:8,padding:"10px 13px",fontFamily:SS,fontSize:"0.9rem",color:T.tx,outline:"none",boxSizing:"border-box"};
 const save=()=>{onChange(Object.assign({},loc,{additionalInjuries:inj}));onDone();};
-return h(‘div’,{style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:14,overflow:“hidden”,marginBottom:22}},
-h(‘div’,{style:{background:T.hdrBg,padding:“20px 24px”}},
-h(‘div’,{style:{fontFamily:PF,fontSize:“1.3rem”,fontWeight:700,color:T.hdrTx}},“Patient Information”),
-h(‘div’,{style:{fontSize:“0.82rem”,color:T.hdrSub,marginTop:3,fontFamily:SS}},“Complete this once before beginning symptom tracking”)
+return h(‘div’,{style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:14,overflow:"hidden",marginBottom:22}},
+h(‘div’,{style:{background:T.hdrBg,padding:"20px 24px"}},
+h(‘div’,{style:{fontFamily:PF,fontSize:"1.3rem",fontWeight:700,color:T.hdrTx}},"Patient Information"),
+h(‘div’,{style:{fontSize:"0.82rem",color:T.hdrSub,marginTop:3,fontFamily:SS}},"Complete this once before beginning symptom tracking")
 ),
-h(‘div’,{style:{padding:“22px 24px”}},
-h(‘div’,{style:{fontSize:“0.78rem”,fontWeight:600,color:T.txMu,marginBottom:7}},“Full Name”),
-h(‘div’,{style:{marginBottom:16}},h(‘input’,{style:iS,placeholder:“Full name”,value:loc.name||””,onChange:e=>setLoc(v=>(Object.assign({},v,{name:e.target.value})))})),
-h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:12,marginBottom:18}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:4}},“DATE OF BIRTH”),h(‘input’,{type:“date”,style:iS,value:loc.dob||””,onChange:e=>setLoc(v=>(Object.assign({},v,{dob:e.target.value})))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:4}},“DATE OF TBI / CONCUSSION”),h(‘input’,{type:“date”,style:iS,value:loc.tbiDate||””,onChange:e=>setLoc(v=>(Object.assign({},v,{tbiDate:e.target.value})))}))
+h(‘div’,{style:{padding:"22px 24px"}},
+h(‘div’,{style:{fontSize:"0.78rem",fontWeight:600,color:T.txMu,marginBottom:7}},"Full Name"),
+h(‘div’,{style:{marginBottom:16}},h(‘input’,{style:iS,placeholder:"Full name",value:loc.name||"",onChange:e=>setLoc(v=>(Object.assign({},v,{name:e.target.value})))})),
+h(‘div’,{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:18}},
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:4}},"DATE OF BIRTH"),h(‘input’,{type:"date",style:iS,value:loc.dob||"",onChange:e=>setLoc(v=>(Object.assign({},v,{dob:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.68rem",color:T.txMu,marginBottom:4}},"DATE OF TBI / CONCUSSION"),h(‘input’,{type:"date",style:iS,value:loc.tbiDate||"",onChange:e=>setLoc(v=>(Object.assign({},v,{tbiDate:e.target.value})))}))
 ),
-h(‘div’,{style:{fontSize:“0.72rem”,fontWeight:700,color:T.txMu,letterSpacing:“0.1em”,marginBottom:7}},“DESCRIPTION OF EVENT”),
-h(‘textarea’,{placeholder:“Describe how the injury occurred”,value:loc.eventDescription||””,onChange:e=>setLoc(v=>(Object.assign({},v,{eventDescription:e.target.value}))),style:Object.assign({},iS,{resize:“vertical”,minHeight:80,marginBottom:18})}),
-h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:9}},
-h(‘div’,{style:{fontSize:“0.72rem”,fontWeight:700,color:T.txMu,letterSpacing:“0.1em”}},“ADDITIONAL INJURIES”),
-h(‘button’,{onClick:()=>setInj(v=>v.concat([{id:Date.now(),type:””,description:””}])),style:{background:“none”,border:“1px solid “+(T.bdrM),borderRadius:6,padding:“3px 12px”,fontSize:“0.75rem”,color:T.txM,cursor:“pointer”}},”+ Add”)
+h(‘div’,{style:{fontSize:"0.72rem",fontWeight:700,color:T.txMu,letterSpacing:"0.1em",marginBottom:7}},"DESCRIPTION OF EVENT"),
+h(‘textarea’,{placeholder:"Describe how the injury occurred",value:loc.eventDescription||"",onChange:e=>setLoc(v=>(Object.assign({},v,{eventDescription:e.target.value}))),style:Object.assign({},iS,{resize:"vertical",minHeight:80,marginBottom:18})}),
+h(‘div’,{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:9}},
+h(‘div’,{style:{fontSize:"0.72rem",fontWeight:700,color:T.txMu,letterSpacing:"0.1em"}},"ADDITIONAL INJURIES"),
+h(‘button’,{onClick:()=>setInj(v=>v.concat([{id:Date.now(),type:"",description:""}])),style:{background:"none",border:"1px solid "+(T.bdrM),borderRadius:6,padding:"3px 12px",fontSize:"0.75rem",color:T.txM,cursor:"pointer"}},"+ Add")
 ),
-inj.map((ij,i)=>h(‘div’,{key:ij.id,style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:9,padding:“12px 14px”,marginBottom:8}},
-h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,marginBottom:6}},h(‘span’,{style:{fontSize:“0.75rem”,color:T.txMu}},“Injury “+(i+1)),h(‘button’,{onClick:()=>setInj(v=>v.filter(x=>x.id!==ij.id)),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”}},“✕”)),
-h(‘input’,{placeholder:“Type / location”,value:ij.type,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{type:e.target.value}):x)),style:Object.assign({},iS,{marginBottom:7})}),
-h(‘textarea’,{placeholder:“Description”,value:ij.description,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{description:e.target.value}):x)),style:Object.assign({},iS,{resize:“vertical”,minHeight:55})})
+inj.map((ij,i)=>h(‘div’,{key:ij.id,style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:9,padding:"12px 14px",marginBottom:8}},
+h(‘div’,{style:{display:"flex",justifyContent:"space-between",marginBottom:6}},h(‘span’,{style:{fontSize:"0.75rem",color:T.txMu}},"Injury "+(i+1)),h(‘button’,{onClick:()=>setInj(v=>v.filter(x=>x.id!==ij.id)),style:{background:"none",border:"none",color:T.txF,cursor:"pointer"}},"✕")),
+h(‘input’,{placeholder:"Type / location",value:ij.type,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{type:e.target.value}):x)),style:Object.assign({},iS,{marginBottom:7})}),
+h(‘textarea’,{placeholder:"Description",value:ij.description,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{description:e.target.value}):x)),style:Object.assign({},iS,{resize:"vertical",minHeight:55})})
 )),
-h(‘button’,{onClick:save,disabled:!loc.name?.trim(),style:{width:“100%”,marginTop:18,background:loc.name?.trim()?T.acc:”#b0a090”,color:”#f5ecd8”,border:“none”,borderRadius:9,padding:“13px”,fontFamily:PF,fontSize:“0.95rem”,fontWeight:600,cursor:loc.name?.trim()?“pointer”:“not-allowed”}},“Save & Begin Symptom Tracking →”)
+h(‘button’,{onClick:save,disabled:!loc.name?.trim(),style:{width:"100%",marginTop:18,background:loc.name?.trim()?T.acc:"#b0a090",color:"#f5ecd8",border:"none",borderRadius:9,padding:"13px",fontFamily:PF,fontSize:"0.95rem",fontWeight:600,cursor:loc.name?.trim()?"pointer":"not-allowed"}},"Save & Begin Symptom Tracking →")
 )
 );
 }
 
 function PatientBar({info,onEdit,T}){
-return h(‘div’,{style:{background:T.hdrBg,borderRadius:11,padding:“11px 18px”,marginBottom:16,display:“flex”,alignItems:“center”,justifyContent:“space-between”,flexWrap:“wrap”,gap:12}},
-h(‘div’,{style:{display:“flex”,gap:18,flexWrap:“wrap”,alignItems:“center”,flex:1}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.62rem”,color:T.hdrSub,letterSpacing:“0.1em”,textTransform:“uppercase”}},“Patient”),h(‘div’,{style:{fontFamily:PF,fontSize:“0.92rem”,fontWeight:600,color:T.hdrTx}},info.name)),
-info.dob&&h(‘div’,{style:{borderLeft:“1px solid rgba(196,168,130,0.25)”,paddingLeft:16}},h(‘div’,{style:{fontSize:“0.62rem”,color:T.hdrSub,textTransform:“uppercase”}},“DOB”),h(‘div’,{style:{fontSize:“0.82rem”,color:”#e8dfc8”}},fmtShort(parseKey(info.dob)))),
-info.tbiDate&&h(‘div’,{style:{borderLeft:“1px solid rgba(196,168,130,0.25)”,paddingLeft:16}},h(‘div’,{style:{fontSize:“0.62rem”,color:T.hdrSub,textTransform:“uppercase”}},“TBI Date”),h(‘div’,{style:{fontSize:“0.82rem”,color:”#e8dfc8”}},fmtShort(parseKey(info.tbiDate))))
+return h(‘div’,{style:{background:T.hdrBg,borderRadius:11,padding:"11px 18px",marginBottom:16,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}},
+h(‘div’,{style:{display:"flex",gap:18,flexWrap:"wrap",alignItems:"center",flex:1}},
+h(‘div’,null,h(‘div’,{style:{fontSize:"0.62rem",color:T.hdrSub,letterSpacing:"0.1em",textTransform:"uppercase"}},"Patient"),h(‘div’,{style:{fontFamily:PF,fontSize:"0.92rem",fontWeight:600,color:T.hdrTx}},info.name)),
+info.dob&&h(‘div’,{style:{borderLeft:"1px solid rgba(196,168,130,0.25)",paddingLeft:16}},h(‘div’,{style:{fontSize:"0.62rem",color:T.hdrSub,textTransform:"uppercase"}},"DOB"),h(‘div’,{style:{fontSize:"0.82rem",color:"#e8dfc8"}},fmtShort(parseKey(info.dob)))),
+info.tbiDate&&h(‘div’,{style:{borderLeft:"1px solid rgba(196,168,130,0.25)",paddingLeft:16}},h(‘div’,{style:{fontSize:"0.62rem",color:T.hdrSub,textTransform:"uppercase"}},"TBI Date"),h(‘div’,{style:{fontSize:"0.82rem",color:"#e8dfc8"}},fmtShort(parseKey(info.tbiDate))))
 ),
-h(‘button’,{onClick:onEdit,style:{background:“rgba(255,255,255,0.08)”,color:T.hdrSub,border:“1px solid rgba(196,168,130,0.3)”,borderRadius:6,padding:“4px 12px”,fontSize:“0.72rem”,cursor:“pointer”}},“Edit”)
+h(‘button’,{onClick:onEdit,style:{background:"rgba(255,255,255,0.08)",color:T.hdrSub,border:"1px solid rgba(196,168,130,0.3)",borderRadius:6,padding:"4px 12px",fontSize:"0.72rem",cursor:"pointer"}},"Edit")
 );
 }
 
@@ -367,92 +367,92 @@ function TBITracker(){
 const stored=loadLS();
 const [dark,setDark]=useState(stored?.dark||false);
 const T=dark?DT:LT;
-const [tab,setTab]=useState(stored?.ready?“log”:“info”);
-const [info,setInfo]=useState(stored?.info||{name:””,dob:””,tbiDate:””,eventDescription:””,additionalInjuries:[]});
+const [tab,setTab]=useState(stored?.ready?"log":"info");
+const [info,setInfo]=useState(stored?.info||{name:"",dob:"",tbiDate:"",eventDescription:"",additionalInjuries:[]});
 const [ready,setReady]=useState(stored?.ready||false);
 const [date,setDate]=useState(new Date());
 const [allData,setAllData]=useState(stored?.allData||{});
-const [notes,setNotes]=useState(””);
+const [notes,setNotes]=useState("");
 const [saved,setSaved]=useState(false);
-const [expMsg,setExpMsg]=useState(””);
+const [expMsg,setExpMsg]=useState("");
 const [meds,setMeds]=useState(stored?.meds||[]);
 const [medLogs,setMedLogs]=useState(stored?.medLogs||{});
 const [appts,setAppts]=useState(stored?.appts||[]);
 const [remOn,setRemOn]=useState(stored?.remOn||false);
-const [remT1,setRemT1]=useState(stored?.remT1||””);
-const [remT2,setRemT2]=useState(stored?.remT2||””);
+const [remT1,setRemT1]=useState(stored?.remT1||"");
+const [remT2,setRemT2]=useState(stored?.remT2||"");
 const [remSaved,setRemSaved]=useState(false);
-const [calV,setCalV]=useState(“log”);
-const [lsMsg,setLsMsg]=useState(””);
+const [calV,setCalV]=useState("log");
+const [lsMsg,setLsMsg]=useState("");
 
-useEffect(()=>{saveLS({dark,info,ready,allData,meds,medLogs,appts,remOn,remT1,remT2});setLsMsg(“saved”);setTimeout(()=>setLsMsg(””),1500);},[dark,info,ready,allData,meds,medLogs,appts,remOn,remT1,remT2]);
+useEffect(()=>{saveLS({dark,info,ready,allData,meds,medLogs,appts,remOn,remT1,remT2});setLsMsg("saved");setTimeout(()=>setLsMsg(""),1500);},[dark,info,ready,allData,meds,medLogs,appts,remOn,remT1,remT2]);
 
 useEffect(()=>{
-if(!remOn||(!remT1&&!remT2)||!(“Notification”in window)||Notification.permission===“denied”)return;
+if(!remOn||(!remT1&&!remT2)||!("Notification"in window)||Notification.permission==="denied")return;
 const go=async()=>{
-if(Notification.permission!==“granted”){const p=await Notification.requestPermission();if(p!==“granted”)return;}
-const chk=()=>{const now=new Date();const hm=String(now.getHours()).padStart(2,“0”)+”:”+String(now.getMinutes()).padStart(2,“0”);const tk=toKey(now);if(!(allData[tk]&&cntChk(allData[tk])>0)&&(hm===remT1||hm===remT2))new Notification(“TBI Tracker Reminder”,{body:“Time to log your symptoms for today.”,tag:“tbi-”+tk});};
+if(Notification.permission!=="granted"){const p=await Notification.requestPermission();if(p!=="granted")return;}
+const chk=()=>{const now=new Date();const hm=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");const tk=toKey(now);if(!(allData[tk]&&cntChk(allData[tk])>0)&&(hm===remT1||hm===remT2))new Notification("TBI Tracker Reminder",{body:"Time to log your symptoms for today.",tag:"tbi-"+tk});};
 chk();const iv=setInterval(chk,60000);return()=>clearInterval(iv);
 };
 const cl=go();return()=>{cl.then(fn=>fn&&fn());};
 },[remOn,remT1,remT2,allData]);
 
 const dk=toKey(date);
-useEffect(()=>{setNotes(allData[dk]?.notes||””);},[dk]);
+useEffect(()=>{setNotes(allData[dk]?.notes||"");},[dk]);
 const getChk=()=>allData[dk]?.checked||{};
 const getSev=()=>allData[dk]?.severity||{};
-const toggle=(cat,item)=>{const key=cat+”::”+item;setAllData(p=>{const day=Object.assign({},(p[dk]||{}));const chk=Object.assign({},(day.checked||{}));const was=!!chk[key];const sev=Object.assign({},(day.severity||{}));if(was)delete sev[key];chk[key]=!was;return Object.assign({},p,{[dk]:Object.assign({},day,{checked:chk,severity:sev})});});setSaved(false);};
-const setSevFn=(cat,item,level)=>{const key=cat+”::”+item;setAllData(p=>{const day=Object.assign({},(p[dk]||{}));return Object.assign({},p,{[dk]:Object.assign({},day,{severity:Object.assign({},(day.severity||{}),{[key]:level})})});});};
+const toggle=(cat,item)=>{const key=cat+"::"+item;setAllData(p=>{const day=Object.assign({},(p[dk]||{}));const chk=Object.assign({},(day.checked||{}));const was=!!chk[key];const sev=Object.assign({},(day.severity||{}));if(was)delete sev[key];chk[key]=!was;return Object.assign({},p,{[dk]:Object.assign({},day,{checked:chk,severity:sev})});});setSaved(false);};
+const setSevFn=(cat,item,level)=>{const key=cat+"::"+item;setAllData(p=>{const day=Object.assign({},(p[dk]||{}));return Object.assign({},p,{[dk]:Object.assign({},day,{severity:Object.assign({},(day.severity||{}),{[key]:level})})});});};
 const saveNotes=()=>{setAllData(p=>(Object.assign({},p,{[dk]:Object.assign({},(p[dk]||{}),{notes})})));setSaved(true);setTimeout(()=>setSaved(false),2000);};
 
 const exportCSV=()=>{
-const rows=[[“TBI Symptom Log”],[””],[“Patient”,info.name],[“DOB”,info.dob],[“TBI Date”,info.tbiDate],[””],[“Date”,“Category”,“Symptom”,“Severity”,“Notes”]];
-Object.entries(allData).sort(([a],[b])=>a.localeCompare(b)).forEach(([d,dd])=>{let first=true;SYMPTOMS.forEach(s=>s.items.forEach(item=>{const k=s.cat+”::”+item;if(dd.checked?.[k]){rows.push([d,s.cat,item,dd.severity?.[k]||””,first?(dd.notes||””).replace(/\n/g,” “):””]);first=false;}}));});
-const csv=rows.map(r=>r.map(c=>’”’+String(c).replace(/”/g,’””’)+’”’).join(”,”)).join(”\n”);
-const a=Object.assign(document.createElement(“a”),{href:URL.createObjectURL(new Blob([csv],{type:“text/csv”})),download:“TBI_”+(info.name.replace(/\s+/g,”_”)||“patient”)+”.csv”});
-a.click();setExpMsg(“CSV downloaded!”);setTimeout(()=>setExpMsg(””),2500);
+const rows=[["TBI Symptom Log"],[""],["Patient",info.name],["DOB",info.dob],["TBI Date",info.tbiDate],[""],["Date","Category","Symptom","Severity","Notes"]];
+Object.entries(allData).sort(([a],[b])=>a.localeCompare(b)).forEach(([d,dd])=>{let first=true;SYMPTOMS.forEach(s=>s.items.forEach(item=>{const k=s.cat+"::"+item;if(dd.checked?.[k]){rows.push([d,s.cat,item,dd.severity?.[k]||"",first?(dd.notes||"").replace(/\n/g," "):""]);first=false;}}));});
+const csv=rows.map(r=>r.map(c=>’"’+String(c).replace(/"/g,’""’)+’"’).join(",")).join("\n");
+const a=Object.assign(document.createElement("a"),{href:URL.createObjectURL(new Blob([csv],{type:"text/csv"})),download:"TBI_"+(info.name.replace(/\s+/g,"_")||"patient")+".csv"});
+a.click();setExpMsg("CSV downloaded!");setTimeout(()=>setExpMsg(""),2500);
 };
 
 const exportPDF=()=>{
-const SC={Mild:”#d97706”,Moderate:”#c2410c”,Severe:”#b91c1c”};
-const rows=[];Object.entries(allData).sort(([a],[b])=>a.localeCompare(b)).forEach(([d,dd])=>{const items=[];SYMPTOMS.forEach(s=>s.items.forEach(item=>{const k=s.cat+”::”+item;if(dd.checked?.[k])items.push({cat:s.cat,item,sev:dd.severity?.[k]||“Not rated”});}));if(items.length||dd.notes)rows.push({date:parseKey(d).toLocaleDateString(“en-US”,{weekday:“long”,month:“long”,day:“numeric”,year:“numeric”}),items,notes:dd.notes});});
+const SC={Mild:"#d97706",Moderate:"#c2410c",Severe:"#b91c1c"};
+const rows=[];Object.entries(allData).sort(([a],[b])=>a.localeCompare(b)).forEach(([d,dd])=>{const items=[];SYMPTOMS.forEach(s=>s.items.forEach(item=>{const k=s.cat+"::"+item;if(dd.checked?.[k])items.push({cat:s.cat,item,sev:dd.severity?.[k]||"Not rated"});}));if(items.length||dd.notes)rows.push({date:parseKey(d).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"}),items,notes:dd.notes});});
 const loggedDays=rows.length,daysSince=info.tbiDate?Math.floor((new Date()-parseKey(info.tbiDate))/(1000*60*60*24)):null;
 const allChk={};Object.values(allData).forEach(dd=>Object.entries(dd.checked||{}).forEach(([k,v])=>{if(v)allChk[k]=(allChk[k]||0)+1;}));
-const topSyms=Object.entries(allChk).sort(([,a],[,b])=>b-a).slice(0,5).map(([k,c])=>({name:k.split(”::”)[1],count:c}));
+const topSyms=Object.entries(allChk).sort(([,a],[,b])=>b-a).slice(0,5).map(([k,c])=>({name:k.split("::")[1],count:c}));
 const sevC={Mild:0,Moderate:0,Severe:0};Object.values(allData).forEach(dd=>{const s=topSev(dd);if(s)sevC[s]++;});
 const totalSev=sevC.Mild+sevC.Moderate+sevC.Severe||1;
-const medRows=meds.map(m=>”<tr><td>”+m.name+”</td><td>”+(m.dosage||”—”)+”</td><td>”+(m.frequency||”—”)+”</td><td>”+(m.notes||”—”)+”</td></tr>”).join(””);
-const injH=info.additionalInjuries?.length?info.additionalInjuries.map((inj,i)=>”<tr><td>”+(i+1)+”. “+(inj.type||“Unspecified”)+”</td><td>”+(inj.description||”—”)+”</td></tr>”).join(””):””;
-const topSymRows=topSyms.map((s,i)=>”<tr><td>”+(i+1)+”</td><td>”+s.name+”</td><td>”+s.count+” day”+(s.count!==1?“s”:””)+”</td><td>”+(loggedDays?Math.round(s.count/loggedDays*100)+”%”:”—”)+”</td></tr>”).join(””);
-const html=’<!DOCTYPE html><html><head><meta charset="utf-8"><title>TBI Report — ‘+info.name+’</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;font-size:10pt;color:#1a1a1a}.page{max-width:720px;margin:0 auto;padding:40px 40px 60px}.header{border-bottom:3px solid #1e2d4a;padding-bottom:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end}.header h1{font-size:18pt;color:#1e2d4a;font-weight:700;line-height:1.2}.header .meta{font-size:8pt;color:#6b75a0;text-align:right;line-height:1.7}.section{margin-bottom:24px}.section-title{font-size:9pt;font-weight:700;color:#3d4f8a;text-transform:uppercase;letter-spacing:.12em;border-bottom:1.5px solid #d4d9e8;padding-bottom:5px;margin-bottom:10px}.patient-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;background:#eef0f5;border:1px solid #d4d9e8;border-radius:6px;padding:14px 16px;margin-bottom:18px}.pfield label{font-size:7pt;color:#3d4f8a;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:2px}.pfield span{font-size:10pt;font-weight:600;color:#2c2416}.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.stat{background:#eef0f5;border:1px solid #d4d9e8;border-radius:6px;padding:10px 12px;text-align:center}.stat .val{font-size:18pt;font-weight:700;color:#1e2d4a;line-height:1}.stat .lbl{font-size:7pt;color:#3d4f8a;margin-top:3px;text-transform:uppercase}table{width:100%;border-collapse:collapse;font-size:9pt;margin-bottom:4px}th{background:#1e2d4a;color:#e8ecf8;padding:6px 10px;text-align:left;font-size:8pt;font-weight:600}td{padding:6px 10px;border-bottom:1px solid #d8dcea;vertical-align:top}tr:nth-child(even) td{background:#f2f4f9}.sev{display:inline-block;padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:700;color:#fff}.day-block{margin-bottom:18px;page-break-inside:avoid;border:1px solid #d4d9e8;border-radius:6px;overflow:hidden}.day-header{background:#1e2d4a;color:#e8ecf8;padding:7px 12px;font-weight:700;font-size:10pt}.day-note{padding:8px 12px;background:#fdf5e8;border-top:1px solid #d4d9e8;font-size:9pt;color:#3d4663;font-style:italic}.disclaimer{margin-top:32px;padding:12px 14px;background:#eef0f8;border:1px solid #d4d9e8;border-radius:6px;font-size:8pt;color:#6b75a0;line-height:1.6}@media print{.page{padding:20px 24px}}</style></head><body><div class="page"><div class="header"><div><h1>TBI / Concussion<br>Clinical Summary Report</h1></div><div class="meta">Generated: ‘+new Date().toLocaleDateString(“en-US”,{year:“numeric”,month:“long”,day:“numeric”})+’<br>Prepared for medical provider review</div></div><div class="section"><div class="section-title">Patient Information</div><div class="patient-grid"><div class="pfield"><label>Full Name</label><span>’+(info.name||”—”)+’</span></div><div class="pfield"><label>Date of Birth</label><span>’+(info.dob?fmtShort(parseKey(info.dob)):”—”)+’</span></div><div class="pfield"><label>Date of Injury</label><span>’+(info.tbiDate?fmtShort(parseKey(info.tbiDate)):”—”)+’</span></div></div>’+(info.eventDescription?’<div style="background:#f0f2f9;border:1px solid #d4d9e8;border-radius:5px;padding:10px 13px;font-size:9pt;line-height:1.65;color:#1e2438"><strong>Description: </strong>’+info.eventDescription+’</div>’:””)+(injH?’<div style="margin-top:10px"><table><thead><tr><th>Additional Injury</th><th>Description</th></tr></thead><tbody>’+injH+’</tbody></table></div>’:””)+’</div><div class="section"><div class="section-title">Recovery Overview’+(daysSince!==null?” — Day “+daysSince+” Since Injury”:””)+’</div><div class="stats-row">’+(daysSince!==null?’<div class="stat"><div class="val">’+daysSince+’</div><div class="lbl">Days Since Injury</div></div>’:””)+’<div class="stat"><div class="val">’+loggedDays+’</div><div class="lbl">Days Tracked</div></div><div class="stat"><div class="val" style="color:#b91c1c">’+sevC.Severe+’</div><div class="lbl">Severe Days</div></div><div class="stat"><div class="val" style="color:#c2410c">’+sevC.Moderate+’</div><div class="lbl">Moderate Days</div></div></div>’+(topSyms.length?’<table><thead><tr><th>#</th><th>Symptom</th><th>Days Reported</th><th>% of Tracked Days</th></tr></thead><tbody>’+topSymRows+’</tbody></table>’:””)+’</div>’+(meds.length?’<div class="section"><div class="section-title">Current Medications</div><table><thead><tr><th>Medication</th><th>Dosage</th><th>Frequency</th><th>Notes</th></tr></thead><tbody>’+medRows+’</tbody></table></div>’:””)+(rows.length?’<div class="section"><div class="section-title">Daily Symptom Log</div>’+rows.map(({date:d,items,notes:n})=>’<div class="day-block"><div class="day-header">’+d+’</div><div>’+(items.length?’<table style="margin:0"><thead><tr><th>Category</th><th>Symptom</th><th>Severity</th></tr></thead><tbody>’+items.map(({cat,item,sev:sv})=>’<tr><td style="color:#6b75a0;font-size:8pt">’+cat+’</td><td>’+item+’</td><td><span class=“sev” style=“background:’+(SC[sv]||”#6b7280”)+’”>’+sv+’</span></td></tr>’).join(””)+’</tbody></table>’:’<div style="padding:8px 12px;font-size:9pt;color:#6b75a0;font-style:italic">Notes only</div>’)+(n?’<div class="day-note">Notes: ‘+n+’</div>’:””)+’</div></div>’).join(””)+’</div>’:””)+’<div class="disclaimer"><strong>Note to Provider:</strong> This report was generated by a patient-managed symptom tracking application. All entries were recorded by the patient or caregiver. This does not constitute a clinical assessment.</div></div></body></html>’;
-const blob=new Blob([html],{type:“text/html”});
+const medRows=meds.map(m=>"<tr><td>"+m.name+"</td><td>"+(m.dosage||"--")+"</td><td>"+(m.frequency||"--")+"</td><td>"+(m.notes||"--")+"</td></tr>").join("");
+const injH=info.additionalInjuries?.length?info.additionalInjuries.map((inj,i)=>"<tr><td>"+(i+1)+". "+(inj.type||"Unspecified")+"</td><td>"+(inj.description||"--")+"</td></tr>").join(""):"";
+const topSymRows=topSyms.map((s,i)=>"<tr><td>"+(i+1)+"</td><td>"+s.name+"</td><td>"+s.count+" day"+(s.count!==1?"s":"")+"</td><td>"+(loggedDays?Math.round(s.count/loggedDays*100)+"%":"--")+"</td></tr>").join("");
+const html=’<!DOCTYPE html><html><head><meta charset="utf-8"><title>TBI Report -- ‘+info.name+’</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;font-size:10pt;color:#1a1a1a}.page{max-width:720px;margin:0 auto;padding:40px 40px 60px}.header{border-bottom:3px solid #1e2d4a;padding-bottom:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end}.header h1{font-size:18pt;color:#1e2d4a;font-weight:700;line-height:1.2}.header .meta{font-size:8pt;color:#6b75a0;text-align:right;line-height:1.7}.section{margin-bottom:24px}.section-title{font-size:9pt;font-weight:700;color:#3d4f8a;text-transform:uppercase;letter-spacing:.12em;border-bottom:1.5px solid #d4d9e8;padding-bottom:5px;margin-bottom:10px}.patient-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;background:#eef0f5;border:1px solid #d4d9e8;border-radius:6px;padding:14px 16px;margin-bottom:18px}.pfield label{font-size:7pt;color:#3d4f8a;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:2px}.pfield span{font-size:10pt;font-weight:600;color:#2c2416}.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.stat{background:#eef0f5;border:1px solid #d4d9e8;border-radius:6px;padding:10px 12px;text-align:center}.stat .val{font-size:18pt;font-weight:700;color:#1e2d4a;line-height:1}.stat .lbl{font-size:7pt;color:#3d4f8a;margin-top:3px;text-transform:uppercase}table{width:100%;border-collapse:collapse;font-size:9pt;margin-bottom:4px}th{background:#1e2d4a;color:#e8ecf8;padding:6px 10px;text-align:left;font-size:8pt;font-weight:600}td{padding:6px 10px;border-bottom:1px solid #d8dcea;vertical-align:top}tr:nth-child(even) td{background:#f2f4f9}.sev{display:inline-block;padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:700;color:#fff}.day-block{margin-bottom:18px;page-break-inside:avoid;border:1px solid #d4d9e8;border-radius:6px;overflow:hidden}.day-header{background:#1e2d4a;color:#e8ecf8;padding:7px 12px;font-weight:700;font-size:10pt}.day-note{padding:8px 12px;background:#fdf5e8;border-top:1px solid #d4d9e8;font-size:9pt;color:#3d4663;font-style:italic}.disclaimer{margin-top:32px;padding:12px 14px;background:#eef0f8;border:1px solid #d4d9e8;border-radius:6px;font-size:8pt;color:#6b75a0;line-height:1.6}@media print{.page{padding:20px 24px}}</style></head><body><div class="page"><div class="header"><div><h1>TBI / Concussion<br>Clinical Summary Report</h1></div><div class="meta">Generated: ‘+new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})+’<br>Prepared for medical provider review</div></div><div class="section"><div class="section-title">Patient Information</div><div class="patient-grid"><div class="pfield"><label>Full Name</label><span>’+(info.name||"--")+’</span></div><div class="pfield"><label>Date of Birth</label><span>’+(info.dob?fmtShort(parseKey(info.dob)):"--")+’</span></div><div class="pfield"><label>Date of Injury</label><span>’+(info.tbiDate?fmtShort(parseKey(info.tbiDate)):"--")+’</span></div></div>’+(info.eventDescription?’<div style="background:#f0f2f9;border:1px solid #d4d9e8;border-radius:5px;padding:10px 13px;font-size:9pt;line-height:1.65;color:#1e2438"><strong>Description: </strong>’+info.eventDescription+’</div>’:"")+(injH?’<div style="margin-top:10px"><table><thead><tr><th>Additional Injury</th><th>Description</th></tr></thead><tbody>’+injH+’</tbody></table></div>’:"")+’</div><div class="section"><div class="section-title">Recovery Overview’+(daysSince!==null?" -- Day "+daysSince+" Since Injury":"")+’</div><div class="stats-row">’+(daysSince!==null?’<div class="stat"><div class="val">’+daysSince+’</div><div class="lbl">Days Since Injury</div></div>’:"")+’<div class="stat"><div class="val">’+loggedDays+’</div><div class="lbl">Days Tracked</div></div><div class="stat"><div class="val" style="color:#b91c1c">’+sevC.Severe+’</div><div class="lbl">Severe Days</div></div><div class="stat"><div class="val" style="color:#c2410c">’+sevC.Moderate+’</div><div class="lbl">Moderate Days</div></div></div>’+(topSyms.length?’<table><thead><tr><th>#</th><th>Symptom</th><th>Days Reported</th><th>% of Tracked Days</th></tr></thead><tbody>’+topSymRows+’</tbody></table>’:"")+’</div>’+(meds.length?’<div class="section"><div class="section-title">Current Medications</div><table><thead><tr><th>Medication</th><th>Dosage</th><th>Frequency</th><th>Notes</th></tr></thead><tbody>’+medRows+’</tbody></table></div>’:"")+(rows.length?’<div class="section"><div class="section-title">Daily Symptom Log</div>’+rows.map(({date:d,items,notes:n})=>’<div class="day-block"><div class="day-header">’+d+’</div><div>’+(items.length?’<table style="margin:0"><thead><tr><th>Category</th><th>Symptom</th><th>Severity</th></tr></thead><tbody>’+items.map(({cat,item,sev:sv})=>’<tr><td style="color:#6b75a0;font-size:8pt">’+cat+’</td><td>’+item+’</td><td><span class="sev" style="background:’+(SC[sv]||"#6b7280")+’">’+sv+’</span></td></tr>’).join("")+’</tbody></table>’:’<div style="padding:8px 12px;font-size:9pt;color:#6b75a0;font-style:italic">Notes only</div>’)+(n?’<div class="day-note">Notes: ‘+n+’</div>’:"")+’</div></div>’).join("")+’</div>’:"")+’<div class="disclaimer"><strong>Note to Provider:</strong> This report was generated by a patient-managed symptom tracking application. All entries were recorded by the patient or caregiver. This does not constitute a clinical assessment.</div></div></body></html>’;
+const blob=new Blob([html],{type:"text/html"});
 const url=URL.createObjectURL(blob);
-const a=Object.assign(document.createElement(“a”),{href:url,target:”_blank”});
+const a=Object.assign(document.createElement("a"),{href:url,target:"_blank"});
 document.body.appendChild(a);a.click();document.body.removeChild(a);
 setTimeout(()=>URL.revokeObjectURL(url),10000);
-setExpMsg(“PDF opened — use File › Print to save as PDF”);setTimeout(()=>setExpMsg(””),4000);
+setExpMsg("PDF opened -- use File › Print to save as PDF");setTimeout(()=>setExpMsg(""),4000);
 };
 
 const chkCnt=Object.values(getChk()).filter(Boolean).length;
 const totCnt=SYMPTOMS.reduce((s,sec)=>s+sec.items.length,0);
 const logTot=Object.values(allData).filter(dd=>cntChk(dd)>0).length;
-const goDate=d=>{setDate(d);setTab(“log”);setSaved(false);};
+const goDate=d=>{setDate(d);setTab("log");setSaved(false);};
 const upAppts=appts.filter(a=>!a.completed&&a.date>=toKey(new Date())).length;
-const TABS=[{id:“info”,l:“👤 Patient Info”},{id:“log”,l:“📋 Log Symptoms”,dis:!ready},{id:“summary”,l:“📊 Summary”+(logTot>0?” (”+logTot+”)”:””),dis:!ready},{id:“progress”,l:“📈 Progress”,dis:!ready},{id:“meds”,l:“💊 Medications”,dis:!ready},{id:“appts”,l:“🗓 Appts”+(upAppts>0?” (”+upAppts+”)”:””),dis:!ready},{id:“settings”,l:“⚙ Settings”}];
-const btnStyle=isActive=>({flexShrink:0,padding:“9px 13px”,border:“none”,borderBottom:“2px solid “+(isActive?T.accB:“transparent”),background:“transparent”,cursor:“pointer”,fontFamily:PF,fontSize:“0.8rem”,color:isActive?T.accB:T.txMu,fontWeight:isActive?600:400,whiteSpace:“nowrap”,outline:“none”});
+const TABS=[{id:"info",l:"👤 Patient Info"},{id:"log",l:"📋 Log Symptoms",dis:!ready},{id:"summary",l:"📊 Summary"+(logTot>0?" ("+logTot+")":""),dis:!ready},{id:"progress",l:"📈 Progress",dis:!ready},{id:"meds",l:"💊 Medications",dis:!ready},{id:"appts",l:"🗓 Appts"+(upAppts>0?" ("+upAppts+")":""),dis:!ready},{id:"settings",l:"⚙ Settings"}];
+const btnStyle=isActive=>({flexShrink:0,padding:"9px 13px",border:"none",borderBottom:"2px solid "+(isActive?T.accB:"transparent"),background:"transparent",cursor:"pointer",fontFamily:PF,fontSize:"0.8rem",color:isActive?T.accB:T.txMu,fontWeight:isActive?600:400,whiteSpace:"nowrap",outline:"none"});
 
-return h(‘div’,{style:{fontFamily:“Georgia,serif”,minHeight:“100vh”,background:T.bg,color:T.tx}},
-h(‘div’,{style:{maxWidth:800,margin:“0 auto”,padding:“24px 18px 70px”}},
-h(‘div’,{style:{display:“flex”,alignItems:“center”,justifyContent:“space-between”,marginBottom:20}},
+return h(‘div’,{style:{fontFamily:"Georgia,serif",minHeight:"100vh",background:T.bg,color:T.tx}},
+h(‘div’,{style:{maxWidth:800,margin:"0 auto",padding:"24px 18px 70px"}},
+h(‘div’,{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20}},
 h(‘div’,null,
-h(‘div’,{style:{fontFamily:PF,fontSize:“1.65rem”,fontWeight:700,color:T.tx}},“TBI / Concussion Tracker “,h(‘span’,{style:{fontSize:“0.9rem”,fontWeight:400,color:T.txMu,fontStyle:“italic”}},“BETA”)),
-h(‘div’,{style:{fontSize:“0.8rem”,color:T.txMu,marginTop:2,fontStyle:“italic”,fontFamily:SS}},“Your symptoms, your data — share it with your doctor, caregiver, or keep it just for you.”),
-lsMsg&&h(‘div’,{style:{fontSize:“0.68rem”,color:”#22c55e”,marginTop:3,fontFamily:SS}},“💾 Data saved locally ✓”)
+h(‘div’,{style:{fontFamily:PF,fontSize:"1.65rem",fontWeight:700,color:T.tx}},"TBI / Concussion Tracker ",h(‘span’,{style:{fontSize:"0.9rem",fontWeight:400,color:T.txMu,fontStyle:"italic"}},"BETA")),
+h(‘div’,{style:{fontSize:"0.8rem",color:T.txMu,marginTop:2,fontStyle:"italic",fontFamily:SS}},"Your symptoms, your data -- share it with your doctor, caregiver, or keep it just for you."),
+lsMsg&&h(‘div’,{style:{fontSize:"0.68rem",color:"#22c55e",marginTop:3,fontFamily:SS}},"💾 Data saved locally ✓")
 ),
-h(‘button’,{onClick:()=>setDark(v=>!v),style:{background:T.sur,border:“1px solid “+(T.bdr),borderRadius:99,padding:“6px 13px”,cursor:“pointer”,fontSize:“0.8rem”,color:T.txM,outline:“none”}},dark?“☀ Light”:“🌙 Dark”)
+h(‘button’,{onClick:()=>setDark(v=>!v),style:{background:T.sur,border:"1px solid "+(T.bdr),borderRadius:99,padding:"6px 13px",cursor:"pointer",fontSize:"0.8rem",color:T.txM,outline:"none"}},dark?"☀ Light":"🌙 Dark")
 ),
-h(‘div’,{style:{display:“flex”,background:T.sur,border:“1px solid “+(T.bdr),borderRadius:11,marginBottom:20,overflowX:“auto”}},
-TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&setTab(id),style:Object.assign({},btnStyle(tab===id),{opacity:dis?0.4:1,cursor:dis?“not-allowed”:“pointer”})},l))
+h(‘div’,{style:{display:"flex",background:T.sur,border:"1px solid "+(T.bdr),borderRadius:11,marginBottom:20,overflowX:"auto"}},
+TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&setTab(id),style:Object.assign({},btnStyle(tab===id),{opacity:dis?0.4:1,cursor:dis?"not-allowed":"pointer"})},l))
 ),
 
 ```
