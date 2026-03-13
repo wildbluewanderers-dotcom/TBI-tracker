@@ -51,7 +51,7 @@ const today=new Date();
 const [vy,setVy]=useState(today.getFullYear());
 const [vm,setVm]=useState(today.getMonth());
 const first=new Date(vy,vm,1);
-const cells=[…Array(first.getDay()).fill(null),…Array(new Date(vy,vm+1,0).getDate()).fill(0).map((_,i)=>new Date(vy,vm,i+1))];
+const cells=Array(first.getDay()).fill(null).concat(Array(new Date(vy,vm+1,0).getDate()).fill(0).map((_,i)=>new Date(vy,vm,i+1)));
 const isFut=d=>{const t=new Date();t.setHours(0,0,0,0);return d>t;};
 const heatClr=d=>{const dd=allData[toKey(d)];if(!dd||!cntChk(dd))return T.hn;const s=topSev(dd);return s===“Severe”?T.hs:s===“Moderate”?T.hmo:s===“Mild”?T.hm:T.hn;};
 const navBtn=(lbl,fn)=>h(‘button’,{onClick:fn,style:{background:“none”,border:`1.5px solid ${T.bdrM}`,borderRadius:“50%”,width:30,height:30,cursor:“pointer”,color:T.txM,fontSize:“1rem”,display:“flex”,alignItems:“center”,justifyContent:“center”}},lbl);
@@ -92,9 +92,9 @@ const [nm,setNm]=useState({name:””,dosage:””,frequency:””,notes:”�
 const [seId,setSeId]=useState(null);
 const [seText,setSeText]=useState(””);
 const iS={width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
-const addMed=()=>{if(!nm.name.trim())return;setMeds(p=>[…p,{id:Date.now(),…nm}]);setNm({name:””,dosage:””,frequency:””,notes:””});setShowAdd(false);};
-const toggleTaken=id=>setMedLogs(p=>{const d={…(p[dk]||{})};d[id]={…(d[id]||{}),taken:!d[id]?.taken};return{…p,[dk]:d};});
-const saveSE=id=>{setMedLogs(p=>{const d={…(p[dk]||{})};d[id]={…(d[id]||{}),sideEffects:seText};return{…p,[dk]:d};});setSeId(null);setSeText(””);};
+const addMed=()=>{if(!nm.name.trim())return;setMeds(p=>p.concat([Object.assign({id:Date.now()},nm)]));setNm({name:””,dosage:””,frequency:””,notes:””});setShowAdd(false);};
+const toggleTaken=id=>setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{taken:!d[id]?.taken});return Object.assign({},p,{[dk]:d});});
+const saveSE=id=>{setMedLogs(p=>{const d=Object.assign({},(p[dk]||{}));d[id]=Object.assign({},(d[id]||{}),{sideEffects:seText});return Object.assign({},p,{[dk]:d});});setSeId(null);setSeText(””);};
 return h(‘div’,null,
 h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:14}},
 h(‘div’,{style:{fontFamily:PF,fontSize:“1rem”,fontWeight:600,color:T.tx}},“Medications”),
@@ -102,11 +102,11 @@ h(‘button’,{onClick:()=>setShowAdd(v=>!v),style:{background:T.accB,color:”
 ),
 showAdd&&h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:14,marginBottom:14}},
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NAME *”),h(‘input’,{style:iS,placeholder:“e.g. Ibuprofen”,value:nm.name,onChange:e=>setNm(v=>({…v,name:e.target.value}))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DOSAGE”),h(‘input’,{style:iS,placeholder:“e.g. 400mg”,value:nm.dosage,onChange:e=>setNm(v=>({…v,dosage:e.target.value}))}))
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NAME *”),h(‘input’,{style:iS,placeholder:“e.g. Ibuprofen”,value:nm.name,onChange:e=>setNm(v=>(Object.assign({},v,{name:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DOSAGE”),h(‘input’,{style:iS,placeholder:“e.g. 400mg”,value:nm.dosage,onChange:e=>setNm(v=>(Object.assign({},v,{dosage:e.target.value})))}))
 ),
-h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“FREQUENCY”),h(‘input’,{style:iS,placeholder:“e.g. Twice daily”,value:nm.frequency,onChange:e=>setNm(v=>({…v,frequency:e.target.value}))})),
-h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘input’,{style:iS,placeholder:“Prescribing doctor…”,value:nm.notes,onChange:e=>setNm(v=>({…v,notes:e.target.value}))})),
+h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“FREQUENCY”),h(‘input’,{style:iS,placeholder:“e.g. Twice daily”,value:nm.frequency,onChange:e=>setNm(v=>(Object.assign({},v,{frequency:e.target.value})))})),
+h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘input’,{style:iS,placeholder:“Prescribing doctor”,value:nm.notes,onChange:e=>setNm(v=>(Object.assign({},v,{notes:e.target.value})))})),
 h(‘div’,{style:{display:“flex”,gap:8}},
 h(‘button’,{onClick:addMed,style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:7,padding:“7px 18px”,fontFamily:PF,fontSize:“0.82rem”,cursor:“pointer”}},“Save”),
 h(‘button’,{onClick:()=>setShowAdd(false),style:{background:“none”,border:`1px solid ${T.bdr}`,borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
@@ -132,7 +132,7 @@ h(‘div’,{style:{padding:“7px 14px”,borderTop:`1px solid ${T.bdr}`}},
 h(‘button’,{onClick:()=>{setSeId(seId===med.id?null:med.id);setSeText(log.sideEffects||””);},style:{fontSize:“0.72rem”,color:log.sideEffects?T.acc:T.txMu,background:“none”,border:`1px solid ${T.bdr}`,borderRadius:6,padding:“2px 9px”,cursor:“pointer”,outline:“none”}},log.sideEffects?“⚠ Side effects logged”:”+ Log side effects”)
 ),
 seId===med.id&&h(‘div’,{style:{padding:“9px 14px”,borderTop:`1px solid ${T.bdr}`}},
-h(‘textarea’,{style:{width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:7,padding:“7px 10px”,fontFamily:SS,fontSize:“0.83rem”,color:T.tx,resize:“vertical”,minHeight:55,outline:“none”,boxSizing:“border-box”},placeholder:“Describe side effects…”,value:seText,onChange:e=>setSeText(e.target.value)}),
+h(‘textarea’,{style:{width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:7,padding:“7px 10px”,fontFamily:SS,fontSize:“0.83rem”,color:T.tx,resize:“vertical”,minHeight:55,outline:“none”,boxSizing:“border-box”},placeholder:“Describe side effects”,value:seText,onChange:e=>setSeText(e.target.value)}),
 h(‘div’,{style:{display:“flex”,gap:7,marginTop:5}},
 h(‘button’,{onClick:()=>saveSE(med.id),style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:6,padding:“5px 14px”,fontSize:“0.78rem”,cursor:“pointer”}},“Save”),
 h(‘button’,{onClick:()=>setSeId(null),style:{background:“none”,border:`1px solid ${T.bdr}`,borderRadius:6,padding:“5px 10px”,fontSize:“0.78rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
@@ -148,9 +148,9 @@ const [show,setShow]=useState(false);
 const [editId,setEditId]=useState(null);
 const [f,setF]=useState({date:””,time:””,provider:””,type:””,location:””,notes:””});
 const iS={width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:8,padding:“8px 11px”,fontFamily:SS,fontSize:“0.86rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
-const openForm=a=>{setF(a?{…a}:{date:””,time:””,provider:””,type:””,location:””,notes:””});setEditId(a?a.id:null);setShow(true);};
-const save=()=>{if(!f.date||!f.provider)return;editId?setAppts(p=>p.map(a=>a.id===editId?{…f,id:editId,completed:a.completed}:a)):setAppts(p=>[…p,{…f,id:Date.now(),completed:false}]);setShow(false);};
-const toggle=id=>setAppts(p=>p.map(a=>a.id===id?{…a,completed:!a.completed}:a));
+const openForm=a=>{setF(a?Object.assign({},a):{date:””,time:””,provider:””,type:””,location:””,notes:””});setEditId(a?a.id:null);setShow(true);};
+const save=()=>{if(!f.date||!f.provider)return;editId?setAppts(p=>p.map(a=>a.id===editId?Object.assign({},f,{id:editId,completed:a.completed}):a)):setAppts(p=>p.concat([Object.assign({},f,{id:Date.now(),completed:false})]));setShow(false);};
+const toggle=id=>setAppts(p=>p.map(a=>a.id===id?Object.assign({},a,{completed:!a.completed}):a));
 const remove=id=>setAppts(p=>p.filter(a=>a.id!==id));
 const upcoming=appts.filter(a=>!a.completed).sort((a,b)=>a.date.localeCompare(b.date));
 const past=appts.filter(a=>a.completed).sort((a,b)=>b.date.localeCompare(a.date));
@@ -181,15 +181,15 @@ h(‘button’,{onClick:()=>openForm(null),style:{background:T.accB,color:”#ff
 ),
 show&&h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:12,padding:14,marginBottom:14}},
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DATE *”),h(‘input’,{type:“date”,style:iS,value:f.date,onChange:e=>setF(v=>({…v,date:e.target.value}))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TIME”),h(‘input’,{type:“time”,style:iS,value:f.time,onChange:e=>setF(v=>({…v,time:e.target.value}))}))
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“DATE *”),h(‘input’,{type:“date”,style:iS,value:f.date,onChange:e=>setF(v=>(Object.assign({},v,{date:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TIME”),h(‘input’,{type:“time”,style:iS,value:f.time,onChange:e=>setF(v=>(Object.assign({},v,{time:e.target.value})))}))
 ),
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:8,marginBottom:8}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“PROVIDER *”),h(‘input’,{style:iS,placeholder:“Dr. Smith”,value:f.provider,onChange:e=>setF(v=>({…v,provider:e.target.value}))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TYPE”),h(‘input’,{style:iS,placeholder:“Neurology follow-up”,value:f.type,onChange:e=>setF(v=>({…v,type:e.target.value}))}))
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“PROVIDER *”),h(‘input’,{style:iS,placeholder:“Dr. Smith”,value:f.provider,onChange:e=>setF(v=>(Object.assign({},v,{provider:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“TYPE”),h(‘input’,{style:iS,placeholder:“Neurology follow-up”,value:f.type,onChange:e=>setF(v=>(Object.assign({},v,{type:e.target.value})))}))
 ),
-h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“LOCATION”),h(‘input’,{style:iS,value:f.location,onChange:e=>setF(v=>({…v,location:e.target.value}))})),
-h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘textarea’,{style:{…iS,resize:“vertical”,minHeight:55},value:f.notes,onChange:e=>setF(v=>({…v,notes:e.target.value}))})),
+h(‘div’,{style:{marginBottom:8}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“LOCATION”),h(‘input’,{style:iS,value:f.location,onChange:e=>setF(v=>(Object.assign({},v,{location:e.target.value})))})),
+h(‘div’,{style:{marginBottom:10}},h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:3}},“NOTES”),h(‘textarea’,{style:Object.assign({},iS,{resize:“vertical”,minHeight:55}),value:f.notes,onChange:e=>setF(v=>(Object.assign({},v,{notes:e.target.value})))})),
 h(‘div’,{style:{display:“flex”,gap:8}},
 h(‘button’,{onClick:save,style:{background:T.accB,color:”#fff”,border:“none”,borderRadius:7,padding:“7px 18px”,fontFamily:PF,fontSize:“0.82rem”,cursor:“pointer”}},“Save”),
 h(‘button’,{onClick:()=>setShow(false),style:{background:“none”,border:`1px solid ${T.bdr}`,borderRadius:7,padding:“7px 14px”,fontSize:“0.82rem”,cursor:“pointer”,color:T.txMu}},“Cancel”)
@@ -219,13 +219,13 @@ cur.setDate(cur.getDate()+1);
 }
 const W=680,H=160,PL=36,PR=16,PT=12,PB=32,cW=W-PL-PR,cH=H-PT-PB,totalDays=points.length-1||1;
 const toX=i=>PL+(i/totalDays)*cW,toY=v=>PT+cH-(v/3)*cH;
-const dp=points.map((p,i)=>({…p,x:toX(i),y:p.score!==null?toY(p.score):null}));
+const dp=points.map((p,i)=>(Object.assign({},p,{x:toX(i),y:p.score!==null?toY(p.score):null})));
 const pl=dp.filter(p=>p.score!==null);
 const pathD=pl.length>1?pl.map((p,i)=>`${i===0?"M":"L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(” “):null;
 const areaD=pathD?`${pathD} L${pl[pl.length-1].x.toFixed(1)},${(PT+cH).toFixed(1)} L${pl[0].x.toFixed(1)},${(PT+cH).toFixed(1)} Z`:null;
 const lc=Math.min(5,points.length),li=Array.from({length:lc},(_,i)=>Math.round(i*(points.length-1)/(lc-1||1)));
 const fmtD=d=>d.toLocaleDateString(“en-US”,{month:“short”,day:“numeric”});
-const roll=dp.map((p,i)=>{const w=dp.slice(Math.max(0,i-3),i+4).filter(x=>x.score!==null);return w.length?{…p,avg:w.reduce((s,x)=>s+x.score,0)/w.length}:{…p,avg:null};});
+const roll=dp.map((p,i)=>{const w=dp.slice(Math.max(0,i-3),i+4).filter(x=>x.score!==null);return w.length?Object.assign({},p,{avg:w.reduce((s,x)=>s+x.score,0)/w.length}):Object.assign({},p,{avg:null});});
 const avgP=roll.filter(p=>p.avg!==null).map((p,i)=>`${i===0?"M":"L"}${p.x.toFixed(1)},${toY(p.avg).toFixed(1)}`).join(” “);
 const [hov,setHov]=useState(null);
 return h(‘div’,{style:{position:“relative”}},
@@ -289,7 +289,7 @@ const [sort,setSort]=useState(“newest”);
 const days=Object.entries(allData).filter(([,dd])=>cntChk(dd)>0).map(([k,dd])=>({k,date:parseKey(k),dd}));
 if(!days.length)return h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:14,padding:36,textAlign:“center”,color:T.txMu,fontFamily:SS,fontStyle:“italic”}},“No symptoms logged yet.”);
 const filtered=days.filter(({dd})=>filt===“all”||topSev(dd)===filt);
-const sorted=[…filtered].sort((a,b)=>sort===“newest”?b.k.localeCompare(a.k):a.k.localeCompare(b.k));
+const sorted=filtered.slice().sort((a,b)=>sort===“newest”?b.k.localeCompare(a.k):a.k.localeCompare(b.k));
 const sevC={Mild:0,Moderate:0,Severe:0};days.forEach(({dd})=>{const s=topSev(dd);if(s)sevC[s]++;});
 return h(‘div’,null,
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“repeat(4,1fr)”,gap:8,marginBottom:18}},
@@ -323,7 +323,7 @@ function PatientForm({info,onChange,onDone,T}){
 const [loc,setLoc]=useState(info);
 const [inj,setInj]=useState(info.additionalInjuries||[]);
 const iS={width:“100%”,background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:8,padding:“10px 13px”,fontFamily:SS,fontSize:“0.9rem”,color:T.tx,outline:“none”,boxSizing:“border-box”};
-const save=()=>{onChange({…loc,additionalInjuries:inj});onDone();};
+const save=()=>{onChange(Object.assign({},loc,{additionalInjuries:inj}));onDone();};
 return h(‘div’,{style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:14,overflow:“hidden”,marginBottom:22}},
 h(‘div’,{style:{background:T.hdrBg,padding:“20px 24px”}},
 h(‘div’,{style:{fontFamily:PF,fontSize:“1.3rem”,fontWeight:700,color:T.hdrTx}},“Patient Information”),
@@ -331,21 +331,21 @@ h(‘div’,{style:{fontSize:“0.82rem”,color:T.hdrSub,marginTop:3,fontFamily
 ),
 h(‘div’,{style:{padding:“22px 24px”}},
 h(‘div’,{style:{fontSize:“0.78rem”,fontWeight:600,color:T.txMu,marginBottom:7}},“Full Name”),
-h(‘div’,{style:{marginBottom:16}},h(‘input’,{style:iS,placeholder:“Full name”,value:loc.name||””,onChange:e=>setLoc(v=>({…v,name:e.target.value}))})),
+h(‘div’,{style:{marginBottom:16}},h(‘input’,{style:iS,placeholder:“Full name”,value:loc.name||””,onChange:e=>setLoc(v=>(Object.assign({},v,{name:e.target.value})))})),
 h(‘div’,{style:{display:“grid”,gridTemplateColumns:“1fr 1fr”,gap:12,marginBottom:18}},
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:4}},“DATE OF BIRTH”),h(‘input’,{type:“date”,style:iS,value:loc.dob||””,onChange:e=>setLoc(v=>({…v,dob:e.target.value}))})),
-h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:4}},“DATE OF TBI / CONCUSSION”),h(‘input’,{type:“date”,style:iS,value:loc.tbiDate||””,onChange:e=>setLoc(v=>({…v,tbiDate:e.target.value}))}))
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:4}},“DATE OF BIRTH”),h(‘input’,{type:“date”,style:iS,value:loc.dob||””,onChange:e=>setLoc(v=>(Object.assign({},v,{dob:e.target.value})))})),
+h(‘div’,null,h(‘div’,{style:{fontSize:“0.68rem”,color:T.txMu,marginBottom:4}},“DATE OF TBI / CONCUSSION”),h(‘input’,{type:“date”,style:iS,value:loc.tbiDate||””,onChange:e=>setLoc(v=>(Object.assign({},v,{tbiDate:e.target.value})))}))
 ),
 h(‘div’,{style:{fontSize:“0.72rem”,fontWeight:700,color:T.txMu,letterSpacing:“0.1em”,marginBottom:7}},“DESCRIPTION OF EVENT”),
-h(‘textarea’,{placeholder:“Describe how the injury occurred…”,value:loc.eventDescription||””,onChange:e=>setLoc(v=>({…v,eventDescription:e.target.value})),style:{…iS,resize:“vertical”,minHeight:80,marginBottom:18}}),
+h(‘textarea’,{placeholder:“Describe how the injury occurred”,value:loc.eventDescription||””,onChange:e=>setLoc(v=>(Object.assign({},v,{eventDescription:e.target.value}))),style:Object.assign({},iS,{resize:“vertical”,minHeight:80,marginBottom:18})}),
 h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,alignItems:“center”,marginBottom:9}},
 h(‘div’,{style:{fontSize:“0.72rem”,fontWeight:700,color:T.txMu,letterSpacing:“0.1em”}},“ADDITIONAL INJURIES”),
-h(‘button’,{onClick:()=>setInj(v=>[…v,{id:Date.now(),type:””,description:””}]),style:{background:“none”,border:`1px solid ${T.bdrM}`,borderRadius:6,padding:“3px 12px”,fontSize:“0.75rem”,color:T.txM,cursor:“pointer”}},”+ Add”)
+h(‘button’,{onClick:()=>setInj(v=>v.concat([{id:Date.now(),type:””,description:””}])),style:{background:“none”,border:`1px solid ${T.bdrM}`,borderRadius:6,padding:“3px 12px”,fontSize:“0.75rem”,color:T.txM,cursor:“pointer”}},”+ Add”)
 ),
 inj.map((ij,i)=>h(‘div’,{key:ij.id,style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:9,padding:“12px 14px”,marginBottom:8}},
 h(‘div’,{style:{display:“flex”,justifyContent:“space-between”,marginBottom:6}},h(‘span’,{style:{fontSize:“0.75rem”,color:T.txMu}},“Injury “+(i+1)),h(‘button’,{onClick:()=>setInj(v=>v.filter(x=>x.id!==ij.id)),style:{background:“none”,border:“none”,color:T.txF,cursor:“pointer”}},“✕”)),
-h(‘input’,{placeholder:“Type / location”,value:ij.type,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?{…x,type:e.target.value}:x)),style:{…iS,marginBottom:7}}),
-h(‘textarea’,{placeholder:“Description…”,value:ij.description,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?{…x,description:e.target.value}:x)),style:{…iS,resize:“vertical”,minHeight:55}})
+h(‘input’,{placeholder:“Type / location”,value:ij.type,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{type:e.target.value}):x)),style:Object.assign({},iS,{marginBottom:7})}),
+h(‘textarea’,{placeholder:“Description”,value:ij.description,onChange:e=>setInj(v=>v.map(x=>x.id===ij.id?Object.assign({},x,{description:e.target.value}):x)),style:Object.assign({},iS,{resize:“vertical”,minHeight:55})})
 )),
 h(‘button’,{onClick:save,disabled:!loc.name?.trim(),style:{width:“100%”,marginTop:18,background:loc.name?.trim()?T.acc:”#b0a090”,color:”#f5ecd8”,border:“none”,borderRadius:9,padding:“13px”,fontFamily:PF,fontSize:“0.95rem”,fontWeight:600,cursor:loc.name?.trim()?“pointer”:“not-allowed”}},“Save & Begin Symptom Tracking →”)
 )
@@ -401,9 +401,9 @@ const dk=toKey(date);
 useEffect(()=>{setNotes(allData[dk]?.notes||””);},[dk]);
 const getChk=()=>allData[dk]?.checked||{};
 const getSev=()=>allData[dk]?.severity||{};
-const toggle=(cat,item)=>{const key=cat+”::”+item;setAllData(p=>{const day={…(p[dk]||{})};const chk={…(day.checked||{})};const was=!!chk[key];const sev={…(day.severity||{})};if(was)delete sev[key];chk[key]=!was;return{…p,[dk]:{…day,checked:chk,severity:sev}};});setSaved(false);};
-const setSevFn=(cat,item,level)=>{const key=cat+”::”+item;setAllData(p=>{const day={…(p[dk]||{})};return{…p,[dk]:{…day,severity:{…(day.severity||{}),[key]:level}}};});};
-const saveNotes=()=>{setAllData(p=>({…p,[dk]:{…(p[dk]||{}),notes}}));setSaved(true);setTimeout(()=>setSaved(false),2000);};
+const toggle=(cat,item)=>{const key=cat+”::”+item;setAllData(p=>{const day=Object.assign({},(p[dk]||{}));const chk=Object.assign({},(day.checked||{}));const was=!!chk[key];const sev=Object.assign({},(day.severity||{}));if(was)delete sev[key];chk[key]=!was;return Object.assign({},p,{[dk]:Object.assign({},day,{checked:chk,severity:sev})});});setSaved(false);};
+const setSevFn=(cat,item,level)=>{const key=cat+”::”+item;setAllData(p=>{const day=Object.assign({},(p[dk]||{}));return Object.assign({},p,{[dk]:Object.assign({},day,{severity:Object.assign({},(day.severity||{}),{[key]:level})})});});};
+const saveNotes=()=>{setAllData(p=>(Object.assign({},p,{[dk]:Object.assign({},(p[dk]||{}),{notes})})));setSaved(true);setTimeout(()=>setSaved(false),2000);};
 
 const exportCSV=()=>{
 const rows=[[“TBI Symptom Log”],[””],[“Patient”,info.name],[“DOB”,info.dob],[“TBI Date”,info.tbiDate],[””],[“Date”,“Category”,“Symptom”,“Severity”,“Notes”]];
@@ -452,7 +452,7 @@ lsMsg&&h(‘div’,{style:{fontSize:“0.68rem”,color:”#22c55e”,marginTop:
 h(‘button’,{onClick:()=>setDark(v=>!v),style:{background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:99,padding:“6px 13px”,cursor:“pointer”,fontSize:“0.8rem”,color:T.txM,outline:“none”}},dark?“☀ Light”:“🌙 Dark”)
 ),
 h(‘div’,{style:{display:“flex”,background:T.sur,border:`1px solid ${T.bdr}`,borderRadius:11,marginBottom:20,overflowX:“auto”}},
-TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&setTab(id),style:{…btnStyle(tab===id),opacity:dis?0.4:1,cursor:dis?“not-allowed”:“pointer”}},l))
+TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&setTab(id),style:Object.assign({},btnStyle(tab===id),{opacity:dis?0.4:1,cursor:dis?“not-allowed”:“pointer”})},l))
 ),
 
 ```
@@ -488,7 +488,7 @@ TABS.map(({id,l,dis})=>h(‘button’,{key:id,disabled:dis,onClick:()=>!dis&&set
     )),
     h('hr',{style:{border:"none",borderTop:`1px solid ${T.bdr}`,margin:"18px 0"}}),
     h('div',{style:{marginBottom:6,fontFamily:PF,fontSize:"0.92rem",fontWeight:600,color:T.tx}},"Daily Notes"),
-    h('textarea',{placeholder:"Add observations for today...",value:notes,onChange:e=>{setNotes(e.target.value);setSaved(false);},style:{width:"100%",background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:9,padding:"11px 14px",fontFamily:SS,fontSize:"0.86rem",color:T.tx,resize:"vertical",minHeight:85,outline:"none",boxSizing:"border-box"}}),
+    h('textarea',{placeholder:"Add observations for today",value:notes,onChange:e=>{setNotes(e.target.value);setSaved(false);},style:{width:"100%",background:T.inBg,border:`1px solid ${T.inBd}`,borderRadius:9,padding:"11px 14px",fontFamily:SS,fontSize:"0.86rem",color:T.tx,resize:"vertical",minHeight:85,outline:"none",boxSizing:"border-box"}}),
     h('div',{style:{display:"flex",flexWrap:"wrap",gap:8,marginTop:9,alignItems:"center"}},
       h('button',{onClick:saveNotes,style:{background:T.acc,color:"#f5ecd8",border:"none",borderRadius:7,padding:"8px 20px",fontFamily:PF,fontSize:"0.86rem",cursor:"pointer"}},"Save Notes"),
       h('button',{onClick:exportCSV,style:{background:T.sur,color:T.acc,border:`1.5px solid ${T.bdrM}`,borderRadius:7,padding:"7px 16px",fontFamily:PF,fontSize:"0.83rem",cursor:"pointer"}},"⬇ Spreadsheet"),
